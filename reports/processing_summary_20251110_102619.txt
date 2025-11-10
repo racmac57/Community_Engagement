@@ -1,0 +1,9 @@
+=== Community Engagement ETL Processing Summary ===
+
+Processing Date: 2025-11-10 10:26:18.047518
+Sources Processed: 3
+Total Records: 230
+Data Quality Score: 100.0%
+
+Errors Encountered:
+- File not found for stacp: C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm

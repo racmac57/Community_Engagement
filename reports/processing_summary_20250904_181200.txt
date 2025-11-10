@@ -1,0 +1,9 @@
+=== Community Engagement ETL Processing Summary ===
+
+Processing Date: 2025-09-04 18:11:59.178158
+Sources Processed: 3
+Total Records: 367
+Data Quality Score: 100.0%
+
+Errors Encountered:
+- Failed to process patrol: Failed to read Excel source: File is locked or permission denied: C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm

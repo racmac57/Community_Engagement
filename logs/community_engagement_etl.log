@@ -1,0 +1,661 @@
+2025-09-04 16:48:47 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-09-04 16:48:47 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 16:48:47 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:55 | Processing Community Engagement data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx
+2025-09-04 16:48:47 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx, sheet=2025_Master
+2025-09-04 16:48:48 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=100, columns=18
+2025-09-04 16:48:48 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=8
+2025-09-04 16:48:48 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Event Name' not found in data
+2025-09-04 16:48:48 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Event Date' not found in data
+2025-09-04 16:48:48 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Location' not found in data
+2025-09-04 16:48:48 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Description' not found in data
+2025-09-04 16:48:48 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Attendees' not found in data
+2025-09-04 16:48:48 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Members Present' not found in data
+2025-09-04 16:48:48 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=2
+2025-09-04 16:48:48 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 16:48:48 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 16:48:48 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=100
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=0, valid_percentage=0.0%
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:77 | Processing complete: 0 valid rows
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:56 | Processing STACP data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm, sheet=25_School_Outreach
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=245, columns=15
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=9
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Activity' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Time Start' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Time End' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Officer' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Participants' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Community Members' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Notes' not found in data
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=2
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=3, rows=245
+2025-09-04 16:48:49 EST | ERROR    | community_engagement_etl.processors.excel_processor | excel_processor.py:215 | Missing required columns: ['officer']
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:78 | Processing complete: 0 valid rows
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:56 | Processing Patrol data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm, sheet=Main_Outreach_Combined
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=74, columns=7
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=9
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Event Date' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Start' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'End' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Beat' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Location' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Officers' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Citizens' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Details' not found in data
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=1
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=3, rows=74
+2025-09-04 16:48:49 EST | ERROR    | community_engagement_etl.processors.excel_processor | excel_processor.py:215 | Missing required columns: ['beat']
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:78 | Processing complete: 0 valid rows
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:56 | Processing CSB data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\CSB\csb_monthly.xlsm
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\CSB\csb_monthly.xlsm, sheet=CSB_CommOut 
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=1, columns=7
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=9
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Program Name' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Program Date' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Start Time' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'End Time' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Venue' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Staff' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Volunteers' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Participants' not found in data
+2025-09-04 16:48:49 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Program Notes' not found in data
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=0
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=1
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=0, valid_percentage=0.0%
+2025-09-04 16:48:49 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:78 | Processing complete: 0 valid rows
+2025-09-04 16:50:21 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-09-04 16:50:21 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 16:50:21 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:55 | Processing Community Engagement data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx
+2025-09-04 16:50:21 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx, sheet=2025_Master
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=100, columns=18
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=100
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=100, valid_percentage=100.0%
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:77 | Processing complete: 100 valid rows
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:52 | Processing STACP data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm, sheet=25_School_Outreach
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=245, columns=15
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=3
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=245
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=245, valid_percentage=100.0%
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:74 | Processing complete: 245 valid rows
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:53 | Processing Patrol data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm, sheet=Main_Outreach_Combined
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=74, columns=7
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=6
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=6
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=74
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=74, valid_percentage=100.0%
+2025-09-04 16:50:22 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:75 | Processing complete: 74 valid rows
+2025-09-04 16:50:50 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-09-04 16:50:50 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:55 | Processing Community Engagement data from C:\Users\CARUCC~1\AppData\Local\Temp\tmpcum6hu9b\community_engagement_test.xlsx
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\CARUCC~1\AppData\Local\Temp\tmpcum6hu9b\community_engagement_test.xlsx, sheet=Sheet1
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=3, columns=6
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-09-04 16:50:51 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Community Event' not found in data
+2025-09-04 16:50:51 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Date of Event' not found in data
+2025-09-04 16:50:51 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Event Location' not found in data
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=2
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=3
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=3
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=0, valid_percentage=0.0%
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:77 | Processing complete: 0 valid rows
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:52 | Processing STACP data from C:\Users\CARUCC~1\AppData\Local\Temp\tmpcum6hu9b\stacp_test.xlsx
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\CARUCC~1\AppData\Local\Temp\tmpcum6hu9b\stacp_test.xlsx, sheet=Sheet1
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=3, columns=7
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-09-04 16:50:51 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'School Outreach Conducted ' not found in data
+2025-09-04 16:50:51 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Start Time' not found in data
+2025-09-04 16:50:51 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'End Time' not found in data
+2025-09-04 16:50:51 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Location' not found in data
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=1
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=3
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=0, valid_percentage=0.0%
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:74 | Processing complete: 0 valid rows
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:53 | Processing Patrol data from C:\Users\CARUCC~1\AppData\Local\Temp\tmpcum6hu9b\patrol_test.xlsx
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\CARUCC~1\AppData\Local\Temp\tmpcum6hu9b\patrol_test.xlsx, sheet=Sheet1
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=3, columns=7
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=6
+2025-09-04 16:50:51 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Event Name' not found in data
+2025-09-04 16:50:51 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Date' not found in data
+2025-09-04 16:50:51 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Start Time' not found in data
+2025-09-04 16:50:51 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'End Time' not found in data
+2025-09-04 16:50:51 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Event Location' not found in data
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=1
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=3
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=0, valid_percentage=0.0%
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:75 | Processing complete: 0 valid rows
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:56 | Processing CSB data from C:\Users\CARUCC~1\AppData\Local\Temp\tmpcum6hu9b\csb_test.xlsx
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\CARUCC~1\AppData\Local\Temp\tmpcum6hu9b\csb_test.xlsx, sheet=Sheet1
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=3, columns=6
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=9
+2025-09-04 16:50:51 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Venue' not found in data
+2025-09-04 16:50:51 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Volunteers' not found in data
+2025-09-04 16:50:51 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Program Notes' not found in data
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=6
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=3
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=3
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=3, valid_percentage=100.0%
+2025-09-04 16:50:51 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:78 | Processing complete: 3 valid rows
+2025-09-04 16:51:31 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-09-04 16:51:31 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:55 | Processing Community Engagement data from C:\Users\CARUCC~1\AppData\Local\Temp\tmpyanogbk0\community_engagement_test.xlsx
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\CARUCC~1\AppData\Local\Temp\tmpyanogbk0\community_engagement_test.xlsx, sheet=Sheet1
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=3, columns=6
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-09-04 16:51:32 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Community Event' not found in data
+2025-09-04 16:51:32 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Date of Event' not found in data
+2025-09-04 16:51:32 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Event Location' not found in data
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=2
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=3
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=3
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=0, valid_percentage=0.0%
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:77 | Processing complete: 0 valid rows
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:52 | Processing STACP data from C:\Users\CARUCC~1\AppData\Local\Temp\tmpyanogbk0\stacp_test.xlsx
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\CARUCC~1\AppData\Local\Temp\tmpyanogbk0\stacp_test.xlsx, sheet=Sheet1
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=3, columns=7
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-09-04 16:51:32 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'School Outreach Conducted ' not found in data
+2025-09-04 16:51:32 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Start Time' not found in data
+2025-09-04 16:51:32 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'End Time' not found in data
+2025-09-04 16:51:32 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Location' not found in data
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=1
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=3
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=0, valid_percentage=0.0%
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:74 | Processing complete: 0 valid rows
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:53 | Processing Patrol data from C:\Users\CARUCC~1\AppData\Local\Temp\tmpyanogbk0\patrol_test.xlsx
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\CARUCC~1\AppData\Local\Temp\tmpyanogbk0\patrol_test.xlsx, sheet=Sheet1
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=3, columns=7
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=6
+2025-09-04 16:51:32 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Event Name' not found in data
+2025-09-04 16:51:32 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Date' not found in data
+2025-09-04 16:51:32 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Start Time' not found in data
+2025-09-04 16:51:32 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'End Time' not found in data
+2025-09-04 16:51:32 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Event Location' not found in data
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=1
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=3
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=0, valid_percentage=0.0%
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:75 | Processing complete: 0 valid rows
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:56 | Processing CSB data from C:\Users\CARUCC~1\AppData\Local\Temp\tmpyanogbk0\csb_test.xlsx
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\CARUCC~1\AppData\Local\Temp\tmpyanogbk0\csb_test.xlsx, sheet=Sheet1
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=3, columns=6
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=9
+2025-09-04 16:51:32 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Venue' not found in data
+2025-09-04 16:51:32 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Volunteers' not found in data
+2025-09-04 16:51:32 EST | WARNING  | community_engagement_etl.processors.excel_processor | excel_processor.py:94 | Source column 'Program Notes' not found in data
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=6
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=3
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=3
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=3, valid_percentage=100.0%
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:78 | Processing complete: 3 valid rows
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\CARUCC~1\AppData\Local\Temp\tmpyanogbk0\attendee_test.xlsx, sheet=Sheet1
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=3, columns=3
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.src.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\CARUCC~1\AppData\Local\Temp\tmpyanogbk0\duration_test.xlsx, sheet=Sheet1
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.src.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=4, columns=3
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.src.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=Start Time, end_col=End Time
+2025-09-04 16:51:32 EST | INFO     | community_engagement_etl.src.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=2
+2025-09-04 17:02:36 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-09-04 17:02:36 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 17:02:36 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=7
+2025-09-04 17:02:36 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=7
+2025-09-04 17:10:44 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-09-04 17:10:44 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 17:10:44 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:45 | Processing CSB statistics data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\CSB\csb_monthly.xlsm, sheet 25_Jan
+2025-09-04 17:10:45 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:50 | Read CSB data: 26 rows, 33 columns
+2025-09-04 17:10:45 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:60 | Converted to 22 event records
+2025-09-04 17:11:01 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-09-04 17:11:01 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 17:11:01 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:45 | Processing CSB statistics data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\CSB\csb_monthly.xlsm, sheet 25_Jan
+2025-09-04 17:11:02 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:50 | Read CSB data: 26 rows, 33 columns
+2025-09-04 17:11:02 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:60 | Converted to 22 event records
+2025-09-04 17:22:09 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-09-04 17:22:09 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 17:22:09 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:55 | Processing Community Engagement data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx
+2025-09-04 17:22:09 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx, sheet=2025_Master
+2025-09-04 17:22:10 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=100, columns=18
+2025-09-04 17:22:10 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-09-04 17:22:10 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-09-04 17:22:10 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 17:22:10 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 17:22:10 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=100
+2025-09-04 17:22:10 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=100, valid_percentage=100.0%
+2025-09-04 17:22:10 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:77 | Processing complete: 100 valid rows
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:55 | Processing Community Engagement data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx, sheet=2025_Master
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=100, columns=18
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=100
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=100, valid_percentage=100.0%
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:77 | Processing complete: 100 valid rows
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:52 | Processing STACP data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm, sheet=25_School_Outreach
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=245, columns=15
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=3
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=245
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=245, valid_percentage=100.0%
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:74 | Processing complete: 245 valid rows
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:53 | Processing Patrol data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm, sheet=Main_Outreach_Combined
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=74, columns=7
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=6
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=6
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=74
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=74, valid_percentage=100.0%
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:75 | Processing complete: 74 valid rows
+2025-09-04 17:23:01 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:45 | Processing CSB statistics data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\CSB\csb_monthly.xlsm, sheet 25_Jan
+2025-09-04 17:23:02 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:50 | Read CSB data: 26 rows, 33 columns
+2025-09-04 17:23:02 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:60 | Converted to 22 event records
+2025-09-04 17:45:17 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-09-04 17:45:17 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 17:45:58 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-09-04 17:45:58 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:55 | Processing Community Engagement data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx, sheet=2025_Master
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=100, columns=18
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=100
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=100, valid_percentage=100.0%
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:77 | Processing complete: 100 valid rows
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:53 | Processing Patrol data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm, sheet=Main_Outreach_Combined
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=74, columns=7
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=6
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=6
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=74
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=74, valid_percentage=100.0%
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:75 | Processing complete: 74 valid rows
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:45 | Processing CSB statistics data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\CSB\csb_monthly.xlsm, sheet 25_Jan
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:50 | Read CSB data: 26 rows, 33 columns
+2025-09-04 17:45:59 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:60 | Converted to 22 event records
+2025-09-04 17:48:17 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-09-04 17:48:17 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:57 | Processing Community Engagement data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx, sheet=2025_Master
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=100, columns=18
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=7
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=7
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:125 | Using pre-calculated member count from Excel
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:160 | Using pre-calculated duration from Excel
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=100
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=100, valid_percentage=100.0%
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:79 | Processing complete: 100 valid rows
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:53 | Processing Patrol data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm, sheet=Main_Outreach_Combined
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=74, columns=7
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=6
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=6
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=74
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=74, valid_percentage=100.0%
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:75 | Processing complete: 74 valid rows
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:45 | Processing CSB statistics data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\CSB\csb_monthly.xlsm, sheet 25_Jan
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:50 | Read CSB data: 26 rows, 33 columns
+2025-09-04 17:48:18 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:60 | Converted to 22 event records
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:57 | Processing Community Engagement data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx, sheet=2025_Master
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=100, columns=18
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=7
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=7
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:128 | Using pre-calculated member count from Excel
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:163 | Using pre-calculated duration from Excel
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:76 | Community Engagement Processor: Assigned office name 'Community Engagement' to 100 records
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=100
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=100, valid_percentage=100.0%
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:82 | Processing complete: 100 valid rows
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:52 | Processing STACP data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm, sheet=25_School_Outreach
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=245, columns=15
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=3
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:71 | STACP Processor: Assigned office name 'STA&CP' to 245 records
+2025-09-04 18:04:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=245
+2025-09-04 18:04:23 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=245, valid_percentage=100.0%
+2025-09-04 18:04:23 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:77 | Processing complete: 245 valid rows
+2025-09-04 18:04:23 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:53 | Processing Patrol data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm
+2025-09-04 18:04:23 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm, sheet=Main_Outreach_Combined
+2025-09-04 18:04:23 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=74, columns=7
+2025-09-04 18:04:23 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=6
+2025-09-04 18:04:23 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=6
+2025-09-04 18:04:23 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 18:04:23 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 18:04:23 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:72 | Patrol Processor: Assigned office name 'Patrol' to 74 records
+2025-09-04 18:04:23 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=74
+2025-09-04 18:04:23 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=74, valid_percentage=100.0%
+2025-09-04 18:04:23 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:78 | Processing complete: 74 valid rows
+2025-09-04 18:04:23 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:45 | Processing CSB statistics data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\CSB\csb_monthly.xlsm, sheet 25_Jan
+2025-09-04 18:04:23 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:50 | Read CSB data: 26 rows, 33 columns
+2025-09-04 18:04:23 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:61 | CSB Processor: Assigned office name 'Crime Suppression Bureau' to 22 records
+2025-09-04 18:04:23 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:63 | Converted to 22 event records
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:57 | Processing Community Engagement data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx, sheet=2025_Master
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=100, columns=18
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=7
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=7
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:128 | Using pre-calculated member count from Excel
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:163 | Using pre-calculated duration from Excel
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:76 | Community Engagement Processor: Assigned office name 'Community Engagement' to 100 records
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=100
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=100, valid_percentage=100.0%
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:82 | Processing complete: 100 valid rows
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:52 | Processing STACP data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm, sheet=25_School_Outreach
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=245, columns=15
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-09-04 18:11:59 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 18:12:00 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=3
+2025-09-04 18:12:00 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:71 | STACP Processor: Assigned office name 'STA&CP' to 245 records
+2025-09-04 18:12:00 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=245
+2025-09-04 18:12:00 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=245, valid_percentage=100.0%
+2025-09-04 18:12:00 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:77 | Processing complete: 245 valid rows
+2025-09-04 18:12:00 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:52 | Processing Patrol data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm
+2025-09-04 18:12:00 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm, sheet=Main_Outreach_Combined
+2025-09-04 18:12:00 EST | ERROR    | community_engagement_etl.processors.excel_processor | logger_setup.py:143 | Operation read_excel_source failed - error=File is locked or permission denied: C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm
+2025-09-04 18:12:00 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:45 | Processing CSB statistics data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\CSB\csb_monthly.xlsm, sheet 25_Jan
+2025-09-04 18:12:00 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:50 | Read CSB data: 26 rows, 33 columns
+2025-09-04 18:12:00 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:61 | CSB Processor: Assigned office name 'Crime Suppression Bureau' to 22 records
+2025-09-04 18:12:00 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:63 | Converted to 22 event records
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:57 | Processing Community Engagement data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx, sheet=2025_Master
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=100, columns=18
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=7
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=7
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:128 | Using pre-calculated member count from Excel
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:163 | Using pre-calculated duration from Excel
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:76 | Community Engagement Processor: Assigned office name 'Community Engagement' to 100 records
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=100
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=100, valid_percentage=100.0%
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:82 | Processing complete: 100 valid rows
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:52 | Processing STACP data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm, sheet=25_School_Outreach
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=245, columns=15
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=3
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:71 | STACP Processor: Assigned office name 'STA&CP' to 245 records
+2025-09-04 18:12:28 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=245
+2025-09-04 18:12:29 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=245, valid_percentage=100.0%
+2025-09-04 18:12:29 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:77 | Processing complete: 245 valid rows
+2025-09-04 18:12:29 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:52 | Processing Patrol data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm
+2025-09-04 18:12:29 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm, sheet=Main_Outreach_Combined
+2025-09-04 18:12:29 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=74, columns=7
+2025-09-04 18:12:29 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-09-04 18:12:29 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-09-04 18:12:29 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-09-04 18:12:29 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-09-04 18:12:29 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:71 | Patrol Processor: Assigned office name 'Patrol' to 74 records
+2025-09-04 18:12:29 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=74
+2025-09-04 18:12:29 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=74, valid_percentage=100.0%
+2025-09-04 18:12:29 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:77 | Processing complete: 74 valid rows
+2025-09-04 18:12:29 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:45 | Processing CSB statistics data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\CSB\csb_monthly.xlsm, sheet 25_Jan
+2025-09-04 18:12:29 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:50 | Read CSB data: 26 rows, 33 columns
+2025-09-04 18:12:29 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:61 | CSB Processor: Assigned office name 'Crime Suppression Bureau' to 22 records
+2025-09-04 18:12:29 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:63 | Converted to 22 event records
+2025-10-09 20:51:47 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-10-09 20:51:47 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-10-09 20:51:47 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:57 | Processing Community Engagement data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx
+2025-10-09 20:51:47 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx, sheet=2025_Master
+2025-10-09 20:51:48 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=111, columns=18
+2025-10-09 20:51:48 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=7
+2025-10-09 20:51:48 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=7
+2025-10-09 20:51:48 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:128 | Using pre-calculated member count from Excel
+2025-10-09 20:51:48 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:163 | Using pre-calculated duration from Excel
+2025-10-09 20:51:48 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:76 | Community Engagement Processor: Assigned office name 'Community Engagement' to 111 records
+2025-10-09 20:51:48 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=111
+2025-10-09 20:51:48 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=111, valid_percentage=100.0%
+2025-10-09 20:51:48 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:82 | Processing complete: 111 valid rows
+2025-10-09 20:51:48 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:52 | Processing STACP data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm
+2025-10-09 20:51:48 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm, sheet=25_School_Outreach
+2025-10-09 20:51:50 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=252, columns=15
+2025-10-09 20:51:50 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-10-09 20:51:50 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-10-09 20:51:50 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-10-09 20:51:50 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=3
+2025-10-09 20:51:50 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:71 | STACP Processor: Assigned office name 'STA&CP' to 252 records
+2025-10-09 20:51:50 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=252
+2025-10-09 20:51:50 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=252, valid_percentage=100.0%
+2025-10-09 20:51:50 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:77 | Processing complete: 252 valid rows
+2025-10-09 20:51:50 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:52 | Processing Patrol data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm
+2025-10-09 20:51:50 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm, sheet=Main_Outreach_Combined
+2025-10-09 20:51:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=74, columns=7
+2025-10-09 20:51:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-10-09 20:51:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-10-09 20:51:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-10-09 20:51:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-10-09 20:51:51 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:71 | Patrol Processor: Assigned office name 'Patrol' to 74 records
+2025-10-09 20:51:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=74
+2025-10-09 20:51:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=74, valid_percentage=100.0%
+2025-10-09 20:51:51 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:77 | Processing complete: 74 valid rows
+2025-10-09 20:51:51 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:45 | Processing CSB statistics data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\CSB\csb_monthly.xlsm, sheet 25_Jan
+2025-10-09 20:51:52 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:50 | Read CSB data: 26 rows, 33 columns
+2025-10-09 20:51:52 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:61 | CSB Processor: Assigned office name 'Crime Suppression Bureau' to 22 records
+2025-10-09 20:51:52 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:63 | Converted to 22 event records
+2025-10-10 10:37:50 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-10-10 10:37:50 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-10-10 10:37:50 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:57 | Processing Community Engagement data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx
+2025-10-10 10:37:50 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx, sheet=2025_Master
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=120, columns=18
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=7
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=7
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:128 | Using pre-calculated member count from Excel
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:163 | Using pre-calculated duration from Excel
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:76 | Community Engagement Processor: Assigned office name 'Community Engagement' to 120 records
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=120
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=115, valid_percentage=95.8%
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:82 | Processing complete: 115 valid rows
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:52 | Processing STACP data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm, sheet=25_School_Outreach
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=252, columns=15
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=3
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:71 | STACP Processor: Assigned office name 'STA&CP' to 252 records
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=252
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=252, valid_percentage=100.0%
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:77 | Processing complete: 252 valid rows
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:52 | Processing Patrol data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm, sheet=Main_Outreach_Combined
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=74, columns=7
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:71 | Patrol Processor: Assigned office name 'Patrol' to 74 records
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=74
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=74, valid_percentage=100.0%
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:77 | Processing complete: 74 valid rows
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:45 | Processing CSB statistics data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\CSB\csb_monthly.xlsm, sheet 25_Jan
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:50 | Read CSB data: 26 rows, 33 columns
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:61 | CSB Processor: Assigned office name 'Crime Suppression Bureau' to 22 records
+2025-10-10 10:37:51 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:63 | Converted to 22 event records
+2025-11-10 09:51:13 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-11-10 09:51:13 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-11-10 09:51:13 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:57 | Processing Community Engagement data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx
+2025-11-10 09:51:13 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx, sheet=2025_Master
+2025-11-10 09:51:14 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=134, columns=18
+2025-11-10 09:51:14 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=7
+2025-11-10 09:51:14 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=7
+2025-11-10 09:51:14 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:128 | Using pre-calculated member count from Excel
+2025-11-10 09:51:14 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:163 | Using pre-calculated duration from Excel
+2025-11-10 09:51:14 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:76 | Community Engagement Processor: Assigned office name 'Community Engagement' to 134 records
+2025-11-10 09:51:14 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=134
+2025-11-10 09:51:14 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=134, valid_percentage=100.0%
+2025-11-10 09:51:14 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:82 | Processing complete: 134 valid rows
+2025-11-10 09:51:14 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:52 | Processing STACP data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm
+2025-11-10 09:51:14 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm, sheet=25_School_Outreach
+2025-11-10 09:51:14 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=269, columns=15
+2025-11-10 09:51:15 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-11-10 09:51:15 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-11-10 09:51:15 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-11-10 09:51:15 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=3
+2025-11-10 09:51:15 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:71 | STACP Processor: Assigned office name 'STA&CP' to 269 records
+2025-11-10 09:51:15 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=269
+2025-11-10 09:51:15 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=269, valid_percentage=100.0%
+2025-11-10 09:51:15 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:77 | Processing complete: 269 valid rows
+2025-11-10 09:51:15 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:52 | Processing Patrol data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm
+2025-11-10 09:51:15 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm, sheet=Main_Outreach_Combined
+2025-11-10 09:51:16 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=74, columns=7
+2025-11-10 09:51:16 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-11-10 09:51:16 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-11-10 09:51:16 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-11-10 09:51:16 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-11-10 09:51:16 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:71 | Patrol Processor: Assigned office name 'Patrol' to 74 records
+2025-11-10 09:51:16 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=74
+2025-11-10 09:51:16 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=74, valid_percentage=100.0%
+2025-11-10 09:51:16 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:77 | Processing complete: 74 valid rows
+2025-11-10 09:51:16 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:45 | Processing CSB statistics data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\CSB\csb_monthly.xlsm, sheet 25_Jan
+2025-11-10 09:51:18 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:50 | Read CSB data: 26 rows, 33 columns
+2025-11-10 09:51:18 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:61 | CSB Processor: Assigned office name 'Crime Suppression Bureau' to 22 records
+2025-11-10 09:51:18 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:63 | Converted to 22 event records
+2025-11-10 10:26:18 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-11-10 10:26:18 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-11-10 10:26:18 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:57 | Processing Community Engagement data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx
+2025-11-10 10:26:18 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx, sheet=2025_Master
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=134, columns=18
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=7
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=7
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:128 | Using pre-calculated member count from Excel
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:163 | Using pre-calculated duration from Excel
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:76 | Community Engagement Processor: Assigned office name 'Community Engagement' to 134 records
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=134
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=134, valid_percentage=100.0%
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:82 | Processing complete: 134 valid rows
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:52 | Processing Patrol data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm, sheet=Main_Outreach_Combined
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=74, columns=7
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:71 | Patrol Processor: Assigned office name 'Patrol' to 74 records
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=74
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=74, valid_percentage=100.0%
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:77 | Processing complete: 74 valid rows
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:45 | Processing CSB statistics data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\CSB\csb_monthly.xlsm, sheet 25_Jan
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:50 | Read CSB data: 26 rows, 33 columns
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:61 | CSB Processor: Assigned office name 'Crime Suppression Bureau' to 22 records
+2025-11-10 10:26:19 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:63 | Converted to 22 event records
+2025-11-10 11:33:08 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-11-10 11:33:08 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-11-10 11:33:08 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:57 | Processing Community Engagement data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx
+2025-11-10 11:33:08 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx, sheet=2025_Master
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=139, columns=18
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=7
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=7
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:128 | Using pre-calculated member count from Excel
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:163 | Using pre-calculated duration from Excel
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:76 | Community Engagement Processor: Assigned office name 'Community Engagement' to 139 records
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=139
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=136, valid_percentage=97.8%
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:82 | Processing complete: 136 valid rows
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:52 | Processing STACP data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm, sheet=25_School_Outreach
+2025-11-10 11:33:09 EST | ERROR    | community_engagement_etl.processors.excel_processor | logger_setup.py:143 | Operation read_excel_source failed - error=File is locked or permission denied: C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:52 | Processing Patrol data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm, sheet=Main_Outreach_Combined
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=74, columns=7
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:71 | Patrol Processor: Assigned office name 'Patrol' to 74 records
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=74
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=74, valid_percentage=100.0%
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:77 | Processing complete: 74 valid rows
+2025-11-10 11:33:09 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:45 | Processing CSB statistics data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\CSB\csb_monthly.xlsm, sheet 25_Jan
+2025-11-10 11:33:10 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:50 | Read CSB data: 26 rows, 33 columns
+2025-11-10 11:33:10 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:61 | CSB Processor: Assigned office name 'Crime Suppression Bureau' to 22 records
+2025-11-10 11:33:10 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:63 | Converted to 22 event records
+2025-11-10 11:34:19 EST | INFO     | community_engagement_etl | logger_setup.py:94 | Logger 'community_engagement_etl' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs\community_engagement_etl.log
+2025-11-10 11:34:19 EST | INFO     | community_engagement_etl | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-11-10 11:34:19 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:57 | Processing Community Engagement data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx
+2025-11-10 11:34:19 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Community_Engagement\Community_Engagement_Monthly.xlsx, sheet=2025_Master
+2025-11-10 11:34:20 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=139, columns=18
+2025-11-10 11:34:20 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=7
+2025-11-10 11:34:20 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=7
+2025-11-10 11:34:20 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:128 | Using pre-calculated member count from Excel
+2025-11-10 11:34:20 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:163 | Using pre-calculated duration from Excel
+2025-11-10 11:34:20 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:76 | Community Engagement Processor: Assigned office name 'Community Engagement' to 139 records
+2025-11-10 11:34:20 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=139
+2025-11-10 11:34:21 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=136, valid_percentage=97.8%
+2025-11-10 11:34:21 EST | INFO     | community_engagement_etl.processors.community_engagement_processor | community_engagement_processor.py:82 | Processing complete: 136 valid rows
+2025-11-10 11:34:21 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:52 | Processing STACP data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm
+2025-11-10 11:34:21 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm, sheet=25_School_Outreach
+2025-11-10 11:34:21 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=269, columns=15
+2025-11-10 11:34:21 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-11-10 11:34:21 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-11-10 11:34:21 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-11-10 11:34:21 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=3
+2025-11-10 11:34:21 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:71 | STACP Processor: Assigned office name 'STA&CP' to 269 records
+2025-11-10 11:34:21 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=269
+2025-11-10 11:34:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=269, valid_percentage=100.0%
+2025-11-10 11:34:22 EST | INFO     | community_engagement_etl.processors.stacp_processor | stacp_processor.py:77 | Processing complete: 269 valid rows
+2025-11-10 11:34:22 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:52 | Processing Patrol data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm
+2025-11-10 11:34:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting read_excel_source with file=C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\Patrol\patrol_monthly.xlsm, sheet=Main_Outreach_Combined
+2025-11-10 11:34:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation read_excel_source completed successfully - rows=74, columns=7
+2025-11-10 11:34:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting standardize_columns with mapping_count=5
+2025-11-10 11:34:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation standardize_columns completed successfully - renamed_columns=5
+2025-11-10 11:34:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting calculate_duration with start_col=start_time, end_col=end_time
+2025-11-10 11:34:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation calculate_duration completed successfully - calculated=0
+2025-11-10 11:34:22 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:71 | Patrol Processor: Assigned office name 'Patrol' to 74 records
+2025-11-10 11:34:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:126 | Starting validate_data with required_fields=2, rows=74
+2025-11-10 11:34:22 EST | INFO     | community_engagement_etl.processors.excel_processor | logger_setup.py:141 | Operation validate_data completed successfully - valid_rows=74, valid_percentage=100.0%
+2025-11-10 11:34:22 EST | INFO     | community_engagement_etl.processors.patrol_processor | patrol_processor.py:77 | Processing complete: 74 valid rows
+2025-11-10 11:34:22 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:45 | Processing CSB statistics data from C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\CSB\csb_monthly.xlsm, sheet 25_Jan
+2025-11-10 11:34:22 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:50 | Read CSB data: 26 rows, 33 columns
+2025-11-10 11:34:22 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:61 | CSB Processor: Assigned office name 'Crime Suppression Bureau' to 22 records
+2025-11-10 11:34:22 EST | INFO     | community_engagement_etl.processors.csb_processor | csb_processor.py:63 | Converted to 22 event records

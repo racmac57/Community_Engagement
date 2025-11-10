@@ -1,0 +1,47 @@
+{
+  "sources": {
+    "community_engagement": {
+      "file_path": "C:\\Users\\carucci_r\\OneDrive - City of Hackensack\\Shared Folder\\Compstat\\Contributions\\Community_Engagement\\Community_Engagement_Monthly.xlsx",
+      "sheet_name": "2025_Master",
+      "description": "Community Engagement division monthly events and activities"
+    },
+    "stacp": {
+      "file_path": "C:\\Users\\carucci_r\\OneDrive - City of Hackensack\\Shared Folder\\Compstat\\Contributions\\STACP\\STACP.xlsm",
+      "sheet_name": "25_School_Outreach",
+      "additional_sheets": ["25_Presentations", "25_Training Delivered"],
+      "description": "Special Teams and Community Policing activities across multiple sheets"
+    },
+    "patrol": {
+      "file_path": "C:\\Users\\carucci_r\\OneDrive - City of Hackensack\\Shared Folder\\Compstat\\Contributions\\Patrol\\patrol_monthly.xlsm",
+      "sheet_name": "Main_Outreach_Combined",
+      "description": "Patrol division community outreach activities"
+    },
+    "csb": {
+      "file_path": "C:\\Users\\carucci_r\\OneDrive - City of Hackensack\\Shared Folder\\Compstat\\Contributions\\CSB\\csb_monthly.xlsm",
+      "sheet_name": "25_Jan",
+      "description": "Community Services Bureau monthly statistics"
+    }
+  },
+  "output_settings": {
+    "csv_export": true,
+    "excel_export": true,
+    "backup_files": true,
+    "output_directory": "output",
+    "reports_directory": "reports",
+    "backups_directory": "backups"
+  },
+  "validation_rules": {
+    "required_fields": [
+      "event_name",
+      "date"
+    ],
+    "min_data_quality_score": 75,
+    "max_processing_time_minutes": 30
+  },
+  "logging": {
+    "level": "INFO",
+    "file_rotation": true,
+    "max_file_size_mb": 10,
+    "backup_count": 5
+  }
+}

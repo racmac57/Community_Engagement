@@ -1,0 +1,9 @@
+=== Community Engagement ETL Processing Summary ===
+
+Processing Date: 2025-11-10 11:33:08.649408
+Sources Processed: 3
+Total Records: 235
+Data Quality Score: 99.4%
+
+Errors Encountered:
+- Failed to process stacp: Failed to read Excel source: File is locked or permission denied: C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm

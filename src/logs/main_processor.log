@@ -1,0 +1,76 @@
+2025-09-04 17:15:35 EST | INFO     | main_processor | logger_setup.py:94 | Logger 'main_processor' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\src\logs\main_processor.log
+2025-09-04 17:15:35 EST | INFO     | main_processor | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 17:15:35 EST | INFO     | main_processor | logger_setup.py:126 | Starting process_all_sources with sources=4
+2025-09-04 17:15:35 EST | INFO     | main_processor | main_processor.py:90 | Processing community_engagement...
+2025-09-04 17:15:35 EST | INFO     | main_processor | main_processor.py:116 | Successfully processed community_engagement: 100 records
+2025-09-04 17:15:35 EST | INFO     | main_processor | main_processor.py:90 | Processing stacp...
+2025-09-04 17:15:35 EST | INFO     | main_processor | main_processor.py:116 | Successfully processed stacp: 245 records
+2025-09-04 17:15:35 EST | INFO     | main_processor | main_processor.py:90 | Processing patrol...
+2025-09-04 17:15:35 EST | INFO     | main_processor | main_processor.py:116 | Successfully processed patrol: 74 records
+2025-09-04 17:15:35 EST | INFO     | main_processor | main_processor.py:90 | Processing csb...
+2025-09-04 17:15:35 EST | INFO     | main_processor | main_processor.py:116 | Successfully processed csb: 22 records
+2025-09-04 17:15:35 EST | INFO     | main_processor | logger_setup.py:141 | Operation process_all_sources completed successfully - sources_processed=4
+2025-09-04 17:15:35 EST | INFO     | main_processor | logger_setup.py:126 | Starting combine_data with sources=4
+2025-09-04 17:15:35 EST | INFO     | main_processor | logger_setup.py:141 | Operation combine_data completed successfully - total_records=441
+2025-09-04 17:15:35 EST | INFO     | main_processor | logger_setup.py:126 | Starting generate_reports
+2025-09-04 17:15:35 EST | INFO     | main_processor | logger_setup.py:141 | Operation generate_reports completed successfully - reports_generated=2
+2025-09-04 17:15:35 EST | INFO     | main_processor | logger_setup.py:126 | Starting export_data with formats=['csv', 'excel']
+2025-09-04 17:15:36 EST | INFO     | main_processor | logger_setup.py:141 | Operation export_data completed successfully - files_exported=2
+2025-09-04 17:15:36 EST | INFO     | main_processor | main_processor.py:316 | Processing completed successfully
+2025-09-04 17:52:51 EST | INFO     | main_processor | logger_setup.py:94 | Logger 'main_processor' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\src\logs\main_processor.log
+2025-09-04 17:52:51 EST | INFO     | main_processor | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 17:52:51 EST | INFO     | main_processor | logger_setup.py:126 | Starting process_all_sources with sources=4
+2025-09-04 17:52:51 EST | INFO     | main_processor | main_processor.py:90 | Processing community_engagement...
+2025-09-04 17:52:51 EST | INFO     | main_processor | main_processor.py:116 | Successfully processed community_engagement: 100 records
+2025-09-04 17:52:51 EST | INFO     | main_processor | main_processor.py:90 | Processing stacp...
+2025-09-04 17:52:51 EST | ERROR    | main_processor | main_processor.py:120 | Failed to process stacp: Failed to read Excel source: File is locked or permission denied: C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm
+2025-09-04 17:52:51 EST | INFO     | main_processor | main_processor.py:90 | Processing patrol...
+2025-09-04 17:52:51 EST | INFO     | main_processor | main_processor.py:116 | Successfully processed patrol: 74 records
+2025-09-04 17:52:51 EST | INFO     | main_processor | main_processor.py:90 | Processing csb...
+2025-09-04 17:52:51 EST | INFO     | main_processor | main_processor.py:116 | Successfully processed csb: 22 records
+2025-09-04 17:52:51 EST | INFO     | main_processor | logger_setup.py:141 | Operation process_all_sources completed successfully - sources_processed=3
+2025-09-04 17:52:51 EST | INFO     | main_processor | logger_setup.py:126 | Starting combine_data with sources=3
+2025-09-04 17:52:51 EST | INFO     | main_processor | logger_setup.py:141 | Operation combine_data completed successfully - total_records=196
+2025-09-04 17:52:51 EST | INFO     | main_processor | logger_setup.py:126 | Starting generate_reports
+2025-09-04 17:52:51 EST | INFO     | main_processor | logger_setup.py:141 | Operation generate_reports completed successfully - reports_generated=2
+2025-09-04 17:52:51 EST | INFO     | main_processor | logger_setup.py:126 | Starting export_data with formats=['csv', 'excel']
+2025-09-04 17:52:51 EST | INFO     | main_processor | logger_setup.py:141 | Operation export_data completed successfully - files_exported=2
+2025-09-04 17:52:51 EST | INFO     | main_processor | main_processor.py:316 | Processing completed successfully
+2025-09-04 17:54:26 EST | INFO     | main_processor | logger_setup.py:94 | Logger 'main_processor' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\src\logs\main_processor.log
+2025-09-04 17:54:26 EST | INFO     | main_processor | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 17:54:26 EST | INFO     | main_processor | logger_setup.py:126 | Starting process_all_sources with sources=4
+2025-09-04 17:54:26 EST | INFO     | main_processor | main_processor.py:90 | Processing community_engagement...
+2025-09-04 17:54:27 EST | INFO     | main_processor | main_processor.py:116 | Successfully processed community_engagement: 100 records
+2025-09-04 17:54:27 EST | INFO     | main_processor | main_processor.py:90 | Processing stacp...
+2025-09-04 17:54:27 EST | ERROR    | main_processor | main_processor.py:120 | Failed to process stacp: Failed to read Excel source: File is locked or permission denied: C:\Users\carucci_r\OneDrive - City of Hackensack\Shared Folder\Compstat\Contributions\STACP\STACP.xlsm
+2025-09-04 17:54:27 EST | INFO     | main_processor | main_processor.py:90 | Processing patrol...
+2025-09-04 17:54:27 EST | INFO     | main_processor | main_processor.py:116 | Successfully processed patrol: 74 records
+2025-09-04 17:54:27 EST | INFO     | main_processor | main_processor.py:90 | Processing csb...
+2025-09-04 17:54:27 EST | INFO     | main_processor | main_processor.py:116 | Successfully processed csb: 22 records
+2025-09-04 17:54:27 EST | INFO     | main_processor | logger_setup.py:141 | Operation process_all_sources completed successfully - sources_processed=3
+2025-09-04 17:54:27 EST | INFO     | main_processor | logger_setup.py:126 | Starting combine_data with sources=3
+2025-09-04 17:54:27 EST | INFO     | main_processor | logger_setup.py:141 | Operation combine_data completed successfully - total_records=196
+2025-09-04 17:54:27 EST | INFO     | main_processor | logger_setup.py:126 | Starting generate_reports
+2025-09-04 17:54:27 EST | INFO     | main_processor | logger_setup.py:141 | Operation generate_reports completed successfully - reports_generated=2
+2025-09-04 17:54:27 EST | INFO     | main_processor | logger_setup.py:126 | Starting export_data with formats=['csv', 'excel']
+2025-09-04 17:54:27 EST | INFO     | main_processor | logger_setup.py:141 | Operation export_data completed successfully - files_exported=2
+2025-09-04 17:54:27 EST | INFO     | main_processor | main_processor.py:316 | Processing completed successfully
+2025-09-04 17:56:02 EST | INFO     | main_processor | logger_setup.py:94 | Logger 'main_processor' initialized - Log file: C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\src\logs\main_processor.log
+2025-09-04 17:56:02 EST | INFO     | main_processor | logger_setup.py:95 | Log rotation: 10,485,760 bytes, 5 backups
+2025-09-04 17:56:02 EST | INFO     | main_processor | logger_setup.py:126 | Starting process_all_sources with sources=4
+2025-09-04 17:56:02 EST | INFO     | main_processor | main_processor.py:90 | Processing community_engagement...
+2025-09-04 17:56:03 EST | INFO     | main_processor | main_processor.py:116 | Successfully processed community_engagement: 100 records
+2025-09-04 17:56:03 EST | INFO     | main_processor | main_processor.py:90 | Processing stacp...
+2025-09-04 17:56:03 EST | INFO     | main_processor | main_processor.py:116 | Successfully processed stacp: 245 records
+2025-09-04 17:56:03 EST | INFO     | main_processor | main_processor.py:90 | Processing patrol...
+2025-09-04 17:56:03 EST | INFO     | main_processor | main_processor.py:116 | Successfully processed patrol: 74 records
+2025-09-04 17:56:03 EST | INFO     | main_processor | main_processor.py:90 | Processing csb...
+2025-09-04 17:56:03 EST | INFO     | main_processor | main_processor.py:116 | Successfully processed csb: 22 records
+2025-09-04 17:56:03 EST | INFO     | main_processor | logger_setup.py:141 | Operation process_all_sources completed successfully - sources_processed=4
+2025-09-04 17:56:03 EST | INFO     | main_processor | logger_setup.py:126 | Starting combine_data with sources=4
+2025-09-04 17:56:03 EST | INFO     | main_processor | logger_setup.py:141 | Operation combine_data completed successfully - total_records=441
+2025-09-04 17:56:03 EST | INFO     | main_processor | logger_setup.py:126 | Starting generate_reports
+2025-09-04 17:56:03 EST | INFO     | main_processor | logger_setup.py:141 | Operation generate_reports completed successfully - reports_generated=2
+2025-09-04 17:56:03 EST | INFO     | main_processor | logger_setup.py:126 | Starting export_data with formats=['csv', 'excel']
+2025-09-04 17:56:03 EST | INFO     | main_processor | logger_setup.py:141 | Operation export_data completed successfully - files_exported=2
+2025-09-04 17:56:03 EST | INFO     | main_processor | main_processor.py:316 | Processing completed successfully

@@ -1,0 +1,26 @@
+{
+  "email": {
+    "smtp_server": "smtp.office365.com",
+    "smtp_port": 587,
+    "sender_email": "etl@hackensacknj.gov",
+    "sender_password": "",
+    "recipients": [
+      "it@hackensacknj.gov"
+    ]
+  },
+  "power_bi": {
+    "workspace_id": "",
+    "dataset_id": "",
+    "client_id": "",
+    "client_secret": ""
+  },
+  "backup": {
+    "retention_months": 6,
+    "max_backup_size_gb": 10,
+    "backup_location": "backups"
+  },
+  "monitoring": {
+    "check_interval_hours": 1,
+    "log_retention_days": 30
+  }
+}

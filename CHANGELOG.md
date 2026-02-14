@@ -3,6 +3,22 @@
 All notable changes to this project will be documented here. The project follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions where possible.
 
+## [2026-02-13]
+
+### Fixed
+- **CSB source:** Updated configuration to use sheet `CSB_CommOut` and table `_csb_commout` in `csb_monthly.xlsm` (path unchanged). Replaced previous sheet `25_Jan`, which was not present in the workbook.
+- Default sheet in `src/processors/csb_processor.py` set to `CSB_CommOut` for consistency.
+
+## [2026-01-12]
+
+### Verified
+- Confirmed ETL processors correctly process all records from source files. Investigation of missing December 2025 events revealed the issue was outdated ETL output, not a code defect.
+- Verified all 31 December 2025 events (17 Community Engagement + 14 STA&CP) are now present in latest output file (`community_engagement_data_20260112_193127.csv`).
+- Latest pipeline run generated 558 total records, with all December 2025 events correctly processed.
+
+### Notes
+- ETL output must be regenerated when source files are updated. Recommend scheduling regular ETL runs or running manually after source file updates.
+
 ## [2025-11-10]
 
 ### Added

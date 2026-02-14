@@ -17,6 +17,8 @@ Key Features
 Recent Updates
 --------------
 
+- **2026-02-13:** CSB source configuration updated to sheet `CSB_CommOut` and table `_csb_commout` in `csb_monthly.xlsm`. Run `python src/main_processor.py` from the project root to regenerate output for Power BI / `___Combined_Outreach_All.m`.
+- **2026-01-12:** Verified ETL processors correctly process all records from source files. Latest run generated 558 total records, including all 31 December 2025 events (17 Community Engagement + 14 STA&CP). Latest export: `output/community_engagement_data_20260112_193127.*`.
 - **2025-11-10:** Successfully ingested the STA&CP workbook (`STACP.xlsm`, table `_25_outreach` on `25_School_Outreach`) after resolving file-lock issues. Combined output now contains 504 records with STA&CP events flagged as `Office = "STA&CP"`.
 - **2025-11-10:** End-to-end run of `src/main_processor.py` generated refreshed exports (`output/community_engagement_data_20251110_113422.*`) that Power BI can consume immediately.
 - **2025-11-10:** Repository initialised and synchronised with GitHub (`master` branch).

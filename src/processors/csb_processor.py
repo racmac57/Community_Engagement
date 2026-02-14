@@ -31,7 +31,7 @@ class CSBProcessor(ExcelProcessor):
         # CSB tracks statistics, not individual events
         # We'll convert daily counts to summary events
     
-    def process_data_source(self, file_path: str, sheet_name: str = '25_Jan') -> pd.DataFrame:
+    def process_data_source(self, file_path: str, sheet_name: str = 'CSB_CommOut') -> pd.DataFrame:
         """
         Process CSB statistics data and convert to event-like format
         

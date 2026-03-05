@@ -18,7 +18,7 @@ Key Actions Completed
 
 - Patrol processor v2: Rank stripping, expanded delimiters, `attendee_names` column, fallback logic for empty attendee fields.
 - Updated CSB config and processor default to sheet `_csb_commout` (fixes "Worksheet named '25_Jan' not found").
-- Documentation updated (README, CHANGELOG, SUMMARY).
+- Documentation updated (README, CHANGELOG, SUMMARY, Claude.md).
 
 Next Steps
 ----------

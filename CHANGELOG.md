@@ -5,6 +5,9 @@ All notable changes to this project will be documented here. The project follows
 
 ## [2026-03-05]
 
+### Added
+- `Claude.md` – AI assistant guide with architecture, data sources (patrol_monthly.xlsm sheets), output schema, Patrol v2 design decisions, MoM aggregation logic, and Cursor integration notes.
+
 ### Changed
 - Patrol processor v2: Rewrote parse_attendees() with rank prefix stripping
   (PO/Sgt/Lt/Det/Cpl/Ofc), expanded delimiter support ([,/&;] + "and"),

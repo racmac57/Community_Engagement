@@ -3,6 +3,15 @@
 All notable changes to this project will be documented here. The project follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions where possible.
 
+## [2026-03-05]
+
+### Changed
+- Patrol processor v2: Rewrote parse_attendees() with rank prefix stripping
+  (PO/Sgt/Lt/Det/Cpl/Ofc), expanded delimiter support ([,/&;] + "and"),
+  non-name entry detection, and fallback logic for empty attendee fields.
+- New attendee_names column added to combined output for person-level analysis.
+- Source spreadsheet column G standardized: PO prefixes removed, delimiters normalized.
+
 ## [2026-02-13]
 
 ### Fixed

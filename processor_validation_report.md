@@ -146,3 +146,14 @@ The Community Engagement ETL processors now accurately extract data from Excel s
 - **Validated column mappings** matching actual Excel structures
 
 The system is ready for production use with improved data accuracy and reliability.
+
+---
+
+## Update (2026-03-05)
+
+**Patrol processor v2** replaces the original Patrol processor with enhanced attendee parsing:
+- Rank prefix stripping (PO, Sgt, Lt, Det, Cpl, Ofc) for consistent name identification
+- Expanded delimiter support: comma, slash, ampersand, semicolon, and "and"
+- Non-name entry detection (e.g., "Squad formation") with count=0
+- Fallback: empty attendee field + valid event data → count=1
+- New `attendee_names` column (comma-separated normalized names) in combined output

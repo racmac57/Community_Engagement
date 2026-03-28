@@ -1,56 +1,122 @@
 Community Engagement ETL
-=========================
+========================
 
 Overview
 --------
 
-This repository automates the consolidation of Hackensack Police Department community engagement activity so it can be reported through Power BI. The ETL pipeline ingests multiple Excel workbooks, standardises the structure, validates data quality, and exports combined CSV/Excel outputs that Power BI refreshes against.
+This repository automates the consolidation of Hackensack Police Department community engagement activity so it can be reported through Power BI. The ETL pipeline ingests multiple Excel workbooks, standardizes the structure, validates data quality, and exports combined CSV/Excel outputs that Power BI refreshes against.
+
+**Note:** The directory name `Community_Engagment` contains a typo (missing 'e'). The correct spelling is `Community_Engagement`. Do not rename without coordinating downstream references (config.json, task_schedule.xml, M code paths).
 
 Key Features
 ------------
 
 - Multi-source ingestion covering Community Engagement, STA&CP, Patrol, and CSB datasets.
-- Shared processing framework built on `pandas`, with reusable helpers for Excel access, column normalisation, and validation.
-- Automated backups, reporting, and export artefacts ready for the Power BI data model.
-- Logging and validation tooling (`power_bi_export_validator.py`, `data_quality_validator.py`) that keeps the output aligned with downstream requirements.
+- Shared processing framework built on `pandas`, with reusable helpers for Excel access, column normalization, and validation.
+- Patrol processor v2: rank-prefix stripping, expanded delimiter parsing, attendee_names column for person-level analysis.
+- COMPSTAT safety filter prevents CSB productivity data from contaminating outreach output.
+- Automated backups, reporting, and export artifacts ready for the Power BI data model.
+- Logging with EST timestamps and file rotation.
+- Validation tooling (`power_bi_export_validator.py`, `data_quality_validator.py`) keeps output aligned with downstream requirements.
 
-Recent Updates
---------------
+Data Sources
+------------
 
-- **2026-03-05:** Patrol processor v2: Enhanced attendee parsing (rank stripping, expanded delimiters, non-name detection, fallback logic). New `attendee_names` column in combined output for person-level analysis. CSV/Excel export column order updated; Power BI M query remains backward compatible.
-- **2026-02-13:** CSB source configuration updated to sheet `_csb_commout` in `csb_monthly.xlsm`. Run `python src/main_processor.py` from the project root to regenerate output for Power BI / `src/___Combined_Outreach_All.m`.
-- **2026-01-12:** Verified ETL processors correctly process all records from source files. Latest run generated 558 total records, including all 31 December 2025 events (17 Community Engagement + 14 STA&CP). Latest export: `output/community_engagement_data_20260112_193127.*`.
-- **2025-11-10:** Successfully ingested the STA&CP workbook (`STACP.xlsm`, table `_25_outreach` on `25_School_Outreach`) after resolving file-lock issues. Combined output now contains 504 records with STA&CP events flagged as `Office = "STA&CP"`.
-- **2025-11-10:** End-to-end run of `src/main_processor.py` generated refreshed exports (`output/community_engagement_data_20251110_113422.*`) that Power BI can consume immediately.
-- **2025-11-10:** Repository initialised and synchronised with GitHub (`master` branch).
+| Source | Workbook | Sheet | Status |
+|--------|----------|-------|--------|
+| Community Engagement | `Community_Engagement_Monthly.xlsx` | `2025_Master` | Active |
+| STA&CP | `STACP.xlsm` | `School_Outreach` | Active |
+| Patrol | `patrol_monthly.xlsm` | `Main_Outreach_Combined` | Active |
+| CSB | `csb_monthly.xlsm` | `CSB_CommOut` | **Disabled** (COMPSTAT tracker, not outreach) |
+
+Source paths are defined in `config.json` using `C:\Users\carucci_r\...` base paths (resolved via junction at runtime).
 
 Project Structure
 -----------------
 
-- `src/main_processor.py` – orchestrates all processors, backups, reports, and exports.
-- `src/processors/` – source-specific processors (Community Engagement, STA&CP, Patrol, CSB) built on the shared `ExcelProcessor`.
-- `src/utils/` – configuration loader, logging setup, data validation helpers.
-- `config.json` – source file paths, sheet names, output directory.
-- `Claude.md` – AI assistant guide (architecture, data sources, Patrol v2 design, Cursor integration).
-- `output/`, `reports/`, `logs/` – generated artefacts from each pipeline run.
+```
+Community_Engagment/
++-- config.json                  # Source paths, sheet names, output config
++-- production_config.json       # SMTP, PBI, backup settings
++-- src/
+|   +-- main_processor.py        # Pipeline orchestrator
+|   +-- processors/
+|   |   +-- excel_processor.py   # Base class
+|   |   +-- community_engagement_processor.py
+|   |   +-- stacp_processor.py
+|   |   +-- patrol_processor.py  # v2 with attendee parsing
+|   |   +-- csb_processor.py     # Disabled
+|   +-- utils/
+|   |   +-- config_loader.py     # JSON config reader
+|   |   +-- logger_setup.py      # Rotating logger with EST
+|   |   +-- data_validator.py    # File/sheet/column validation
+|   |   +-- duration_utils.py    # Duration normalization
+|   |   +-- attendee_utils.py    # STACP attendee alias mapping
++-- Combined_Outreach_All.m      # Power BI M code query
++-- output/                      # Timestamped CSV+XLSX exports
++-- reports/                     # Processing summaries
++-- logs/                        # Rotating log files
++-- backups/                     # Source file backups
++-- data/                        # Sample/reference data
++-- docs/                        # Extended documentation
++-- tests/                       # Test scripts
+```
 
 Getting Started
 ---------------
 
-1. Install dependencies (Python 3.12+): `pip install -r requirements.txt`.
-2. Ensure source workbooks are accessible at the paths defined in `config.json`.
-3. Run the pipeline: `python src/main_processor.py`.
-4. Review the latest combined CSV/Excel in `output/` and refresh the Power BI dataset (the M query `src/___Combined_Outreach_All.m` reads the most recent `community_engagement_data_*.csv`).
+### Prerequisites
 
-Validation & Monitoring
------------------------
+- Python 3.8+ with: `pandas`, `openpyxl`, `pytz`
+- Source workbooks accessible at paths in `config.json`
 
-- Use `power_bi_export_validator.py` to verify that exports stay within Power BI limits.
-- `monitor_etl.py` and `deploy_production.py` support scheduling and deployment workflows.
-- Logs are written to `logs/` and include detailed status for each processor.
+### Running the Pipeline
+
+```powershell
+cd "C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment"
+python src/main_processor.py
+```
+
+### Output
+
+The pipeline produces timestamped files in `output/`:
+- `community_engagement_data_YYYYMMDD_HHMMSS.csv` -- combined data for Power BI
+- `community_engagement_data_YYYYMMDD_HHMMSS.xlsx` -- same with Summary sheet
+
+Power BI M code (`Combined_Outreach_All.m`) auto-discovers the most recent CSV.
+
+### Scheduled Execution
+
+Windows Task Scheduler runs monthly on the 1st at 06:00 EST via `task_schedule.xml`.
+
+Validation and Monitoring
+-------------------------
+
+- `power_bi_export_validator.py` -- verifies exports stay within Power BI limits.
+- `data_quality_validator.py` -- checks required fields and quality scores.
+- `setup_validator.py` -- pre-run environment validation.
+- `verify_config.py` -- config.json sanity checks.
+- Logs are written to `logs/` with detailed processor status.
+
+Recent Changes
+--------------
+
+See `CHANGELOG.md` for full history.
+
+- **2026-03-28:** Documentation audit and refresh (CLAUDE.md, README, CHANGELOG, SUMMARY, docs/).
+- **2026-03-11:** STACP source config fixed to `School_Outreach`. Power BI M query updated with Event ID and Row_ID.
+- **2026-03-05:** Patrol processor v2 with enhanced attendee parsing.
+- **2026-02-13:** CSB source disabled; COMPSTAT safety filter added.
+
+Documentation
+-------------
+
+- `CLAUDE.md` -- Comprehensive AI assistant guide with architecture, schemas, and gotchas.
+- `docs/etl-pipeline.md` -- ETL pipeline flow documentation.
+- `docs/file-inventory.md` -- Complete file inventory with roles.
+- `docs/config-reference.md` -- Configuration file reference.
 
 Support
 -------
 
-For questions or issue tracking, open an issue on the GitHub repository or email the ETL operations team at `etl@hackensacknj.gov`.
-
+Maintained by R. A. Carucci #261, SSOCC, Hackensack Police Department.

@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Output and generated data
+output/
+reports/
+logs/
+backups/
+src/output/
+src/reports/
+src/logs/
+
+# Config backups
+config.json.backup_*
+
+# OneDrive sync duplicates
+*\ (1).*
+*\ (2).*
+
+# Temp files
+tmpclaude-*
+*.tmp
+~$*
+
+# IDE / editor
+.vscode/
+*.code-workspace
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Claude Code
+.claude/
+
+# Do NOT ignore these:
+# config.json (needed for pipeline)
+# production_config.json (credentials are blank)
+# *.m (Power BI M code)
+# data/ (reference samples)

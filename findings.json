@@ -1,0 +1,74 @@
+{
+  "repo": "Community_Engagment",
+  "run_date": "2026-03-28",
+  "files_created": [
+    "CLAUDE.md",
+    ".gitignore",
+    "CONTRIBUTING.md",
+    "reorganization_proposal.md",
+    "findings.json",
+    "docs/etl-pipeline.md",
+    "docs/file-inventory.md",
+    "docs/config-reference.md"
+  ],
+  "files_updated": [
+    "README.md",
+    "CHANGELOG.md",
+    "SUMMARY.md"
+  ],
+  "dead_scripts": [
+    "debug_csb_structure.py",
+    "debug_processors.py",
+    "sample_office_distribution.py",
+    "test_date_parsing.py",
+    "project_scaffold.py",
+    "deploy_production.py",
+    "monitor_etl.py"
+  ],
+  "orphaned_files": [
+    "src/___Combined_Outreach_All.m (redundant copy of root Combined_Outreach_All.m)",
+    "src/main_processor.txt (text copy of main_processor.py -- no clear purpose)",
+    "src/processors/patrol_processor.txt (text copy of patrol_processor.py -- no clear purpose)",
+    "src/output/ (5 old export pairs from pre-refactor era)",
+    "src/reports/ (5 old report pairs from pre-refactor era)",
+    "src/logs/ (duplicate log directory)",
+    "Engagement Initiatives by Bureau.csv (before-update reference)",
+    "after_update_Engagement Initiatives by Bureau.csv (after-update reference)",
+    "PYTHON_WORKSPACE_AI_GUIDE.md (generic template, not project-specific)",
+    "PYTHON_WORKSPACE_TEMPLATE.md (generic template, not project-specific)",
+    "office_name_debug_report.md (one-time artifact)",
+    "processor_validation_report.md (one-time artifact)",
+    "tmpclaude-974f-cwd (temp file)"
+  ],
+  "doc_inconsistencies": [
+    "SUMMARY.md previously stated CE sheet as '_25_ce' but config.json says '2025_Master' -- config.json is authoritative (fixed in this update)",
+    "README.md referenced 'pip install -r requirements.txt' but requirements.txt does not exist",
+    "Claude.md (old) listed 'patrol_monthly.xlsm' as a file in the repo -- it is a source workbook on the shared drive, not in the repo",
+    "CSB processor default sheet is 'CSB_CommOut' but config.json sheet_name says '26_01' -- these are inconsistent"
+  ],
+  "reorganization_proposals": [
+    "Rename directory: Community_Engagment -> Community_Engagement (typo fix, requires downstream coordination)",
+    "Archive 7 OneDrive sync duplicates (files with '(1)' suffix)",
+    "Archive 4 config.json.backup_* files",
+    "Delete tmpclaude-974f-cwd temp file",
+    "Consolidate duplicate M code files (keep root Combined_Outreach_All.m, remove src/ copy)",
+    "Remove src/output/, src/reports/, src/logs/ legacy directories",
+    "Create requirements.txt (pandas, openpyxl, pytz)",
+    "Implement output rotation/cleanup policy for 30+ accumulated timestamped files",
+    "Archive dead debug scripts to archive/ directory"
+  ],
+  "security_flags": [
+    "production_config.json contains blank credential fields (smtp password, PBI client_id/secret) -- safe currently but must never be committed with real values",
+    "task_schedule.xml runs as NT AUTHORITY\\SYSTEM -- verify this is intentional for scheduled ETL"
+  ],
+  "human_review_needed": [
+    "CRITICAL: Directory name typo 'Community_Engagment' (missing 'e') -- rename requires coordinated update across config.json, task_schedule.xml, M code paths, PBI data sources, and parent workspace references",
+    "CSB config.json sheet_name '26_01' does not match csb_processor.py default 'CSB_CommOut' -- resolve which is correct (source is disabled so not currently impactful)",
+    "Decide whether to create requirements.txt and pin dependency versions",
+    "Decide output retention policy: keep all 30+ timestamped exports or implement rotation",
+    "Review dead scripts (debug_csb_structure.py, debug_processors.py, etc.) and confirm safe to archive",
+    "Verify task_schedule.xml is registered in Windows Task Scheduler and functioning",
+    "STACP additional_sheets ['25_Presentations', '25_Training Delivered'] are declared in config but stacp_processor.py only reads the primary sheet_name -- confirm if additional sheets should be processed"
+  ],
+  "commit_message": "docs(Community_Engagment): audit, CLAUDE.md update, ETL pipeline map [swarm-run 2026-03-28]"
+}

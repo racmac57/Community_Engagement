@@ -3,10 +3,43 @@
 All notable changes to this project will be documented here. The project follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions where possible.
 
+## [2026-03-28]
+
+### Added
+- `CLAUDE.md` -- Complete rewrite with full file inventory, ETL pipeline map, output schema, known issues, and tech debt catalog.
+- `docs/etl-pipeline.md` -- Dedicated ETL pipeline flow documentation.
+- `docs/file-inventory.md` -- Complete file inventory with roles and status.
+- `docs/config-reference.md` -- Configuration file reference for config.json and production_config.json.
+- `.gitignore` -- Excludes output/, logs/, backups/, __pycache__/, temp files, config backups.
+- `CONTRIBUTING.md` -- Contributor guidelines stub.
+- `reorganization_proposal.md` -- Proposed cleanup: duplicate removal, directory typo fix, structure improvements.
+- `findings.json` -- Audit findings from documentation swarm run.
+
+### Changed
+- `README.md` -- Refreshed with current project structure, data sources table, and documentation links.
+- `CHANGELOG.md` -- Updated with 2026-03-28 audit entries.
+- `SUMMARY.md` -- Refreshed with current status and known issues.
+
+### Identified (not fixed)
+- Directory name typo: `Community_Engagment` should be `Community_Engagement`.
+- 7 OneDrive sync duplicate files (`(1)` suffix).
+- 4 config.json backup files from 2026-02-19.
+- Missing `requirements.txt` (README references it).
+- No .gitignore was present (now added).
+
+## [2026-03-11]
+
+### Fixed
+- **STACP source:** Config updated from sheet `_25_outreach` (does not exist) to `School_Outreach`. Fixes missing Feb 2026 STA&CP incidents in combined output.
+- **Config paths:** All source and output paths use base `C:\Users\carucci_r\OneDrive - City of Hackensack` for desktop; laptop uses `RobertCarucci`.
+
+### Changed
+- **Power BI M query** (`m_code/community/___Combined_Outreach_All.m`): Added Event ID and Row_ID columns so each event displays as an individual row. Prevents "Engagement Initiatives by Bureau" visual from aggregating multiple events (e.g. 9 LEAD events) into 2 rows.
+
 ## [2026-03-05]
 
 ### Added
-- `Claude.md` – AI assistant guide with architecture, data sources (patrol_monthly.xlsm sheets), output schema, Patrol v2 design decisions, MoM aggregation logic, and Cursor integration notes.
+- `Claude.md` -- AI assistant guide with architecture, data sources (patrol_monthly.xlsm sheets), output schema, Patrol v2 design decisions, MoM aggregation logic, and Cursor integration notes.
 
 ### Changed
 - Patrol processor v2: Rewrote parse_attendees() with rank prefix stripping
@@ -46,4 +79,3 @@ All notable changes to this project will be documented here. The project follows
 - Initial ETL implementation, including processors for Community Engagement, STA&CP, Patrol, and CSB.
 - Power BI integration artifacts (`Combined_Outreach_All.m`) and validation tooling.
 - Automated reporting and export generation for Power BI consumption.
-

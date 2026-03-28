@@ -38,8 +38,10 @@ desktop.ini
 # Claude Code
 .claude/
 
+# Sensitive config (credential fields -- even if currently blank)
+production_config.json
+
 # Do NOT ignore these:
 # config.json (needed for pipeline)
-# production_config.json (credentials are blank)
 # *.m (Power BI M code)
 # data/ (reference samples)

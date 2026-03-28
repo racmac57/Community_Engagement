@@ -1,6 +1,6 @@
 # File Inventory
 
-Complete inventory of all files in the Community_Engagment repository as of 2026-03-28.
+Complete inventory of all files in the Community_Engagement repository as of 2026-03-28.
 
 ## Core Pipeline Files
 
@@ -109,7 +109,7 @@ Complete inventory of all files in the Community_Engagment repository as of 2026
 
 | File | Purpose |
 |------|---------|
-| `Community_Engagment.code-workspace` | VS Code workspace |
+| `Community_Engagement.code-workspace` | VS Code workspace |
 | `task_schedule.xml` | Windows Task Scheduler config |
 | `Engagement Initiatives by Bureau.csv` | Before-update reference |
 | `after_update_Engagement Initiatives by Bureau.csv` | After-update reference |

@@ -1,8 +1,8 @@
-# TODO — Community_Engagment
+# TODO — Community_Engagement
 ## Generated from swarm audit 2026-03-28
 
 ### CRITICAL Priority
-- [ ] Directory name typo: `Community_Engagment` (missing 'e'). Rename requires coordinated update across config.json, task_schedule.xml, M code paths, PBI data sources, and parent workspace references
+- [x] ~~Directory name typo: `Community_Engagment` (missing 'e').~~ RESOLVED 2026-03-28. Renamed to `Community_Engagement`, all downstream refs updated. Task Scheduler XML needs manual re-import.
 
 ### HIGH Priority
 - [ ] CSB config inconsistency: config.json `sheet_name` is `26_01` but `csb_processor.py` default is `CSB_CommOut`. Resolve before re-enabling source

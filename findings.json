@@ -58,8 +58,24 @@
     "Archive dead debug scripts to archive/ directory"
   ],
   "security_flags": [
-    "production_config.json contains blank credential fields (smtp password, PBI client_id/secret) -- safe currently but must never be committed with real values",
-    "task_schedule.xml runs as NT AUTHORITY\\SYSTEM -- verify this is intentional for scheduled ETL"
+    {
+      "flag_id": "SF-002",
+      "description": "production_config.json contains blank credential fields (smtp password, PBI client_id/secret)",
+      "location": "production_config.json",
+      "risk_decision": "resolved",
+      "accepted_by": "RAC",
+      "date": "2026-03-28",
+      "notes": "Added to .gitignore and removed from git tracking. File kept on disk for local config."
+    },
+    {
+      "flag_id": "SF-003",
+      "description": "task_schedule.xml runs as NT AUTHORITY\\SYSTEM",
+      "location": "task_schedule.xml",
+      "risk_decision": "accepted",
+      "accepted_by": "RAC",
+      "date": "2026-03-28",
+      "notes": "Deployment concern, not a code fix. SYSTEM context is standard for scheduled ETL tasks. Document in ops runbook."
+    }
   ],
   "human_review_needed": [
     "RESOLVED 2026-03-28: Directory renamed from Community_Engagment to Community_Engagement. Task Scheduler XML needs manual re-import.",

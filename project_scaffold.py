@@ -11,7 +11,7 @@ def create_project_structure():
     """
     Creates the complete directory structure for the Community Engagement project
     """
-    base_dir = Path(r"C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment")
+    base_dir = Path(r"C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagement")
     
     # Directory structure
     directories = [
@@ -96,9 +96,9 @@ def create_config_files(base_dir):
         "stacp_dir": "STACP",
         "patrol_dir": "Patrol",
         "csb_dir": "CSB",
-        "output_dir": r"C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\data\output",
-        "backup_dir": r"C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\data\backup",
-        "logs_dir": r"C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\logs"
+        "output_dir": r"C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagement\data\output",
+        "backup_dir": r"C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagement\data\backup",
+        "logs_dir": r"C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagement\logs"
     }
     
     # Column mappings for standardization
@@ -156,7 +156,7 @@ Automated processing system for police community engagement data from multiple d
 
 ## Project Structure
 ```
-Community_Engagment/
+Community_Engagement/
 ├── config/           # Configuration files
 ├── src/             # Source code
 │   ├── processors/  # Data source processors

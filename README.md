@@ -6,7 +6,7 @@ Overview
 
 This repository automates the consolidation of Hackensack Police Department community engagement activity so it can be reported through Power BI. The ETL pipeline ingests multiple Excel workbooks, standardizes the structure, validates data quality, and exports combined CSV/Excel outputs that Power BI refreshes against.
 
-**Note:** The directory name `Community_Engagment` contains a typo (missing 'e'). The correct spelling is `Community_Engagement`. Do not rename without coordinating downstream references (config.json, task_schedule.xml, M code paths).
+**Note:** The directory name `Community_Engagement` contains a typo (missing 'e'). The correct spelling is `Community_Engagement`. Do not rename without coordinating downstream references (config.json, task_schedule.xml, M code paths).
 
 Key Features
 ------------
@@ -35,7 +35,7 @@ Project Structure
 -----------------
 
 ```
-Community_Engagment/
+Community_Engagement/
 +-- config.json                  # Source paths, sheet names, output config
 +-- production_config.json       # SMTP, PBI, backup settings
 +-- src/
@@ -73,7 +73,7 @@ Getting Started
 ### Running the Pipeline
 
 ```powershell
-cd "C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment"
+cd "C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagement"
 python src/main_processor.py
 ```
 

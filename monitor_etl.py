@@ -1,7 +1,7 @@
 
 import time
 import sys
-sys.path.append(r"C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment")
+sys.path.append(r"C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagement")
 from deploy_production import ProductionDeployer
 
 deployer = ProductionDeployer()

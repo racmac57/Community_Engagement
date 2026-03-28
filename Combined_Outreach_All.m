@@ -4,7 +4,7 @@
 let
     // === 1. Dynamic File Path Discovery ===
     // Look for the most recent Python ETL output file
-    OutputFolder = "C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment\output\",
+    OutputFolder = "C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagement\output\",
     
     // Try to find the most recent community_engagement_data_*.csv file
     // Pattern: community_engagement_data_YYYYMMDD_HHMMSS.csv

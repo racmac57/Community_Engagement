@@ -30,7 +30,7 @@ Output
 Known Issues
 ------------
 
-1. Directory name typo: `Community_Engagment` (missing 'e').
+1. Directory name typo: `Community_Engagement` (missing 'e').
 2. No requirements.txt file (deps: pandas, openpyxl, pytz).
 3. Stale output accumulation: 30+ timestamped files with no cleanup policy.
 4. OneDrive sync duplicates: 7 files with `(1)` suffix need archiving.

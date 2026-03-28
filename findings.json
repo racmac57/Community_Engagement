@@ -1,5 +1,5 @@
 {
-  "repo": "Community_Engagment",
+  "repo": "Community_Engagement",
   "run_date": "2026-03-28",
   "files_created": [
     "CLAUDE.md",
@@ -47,7 +47,7 @@
     "CSB processor default sheet is 'CSB_CommOut' but config.json sheet_name says '26_01' -- these are inconsistent"
   ],
   "reorganization_proposals": [
-    "Rename directory: Community_Engagment -> Community_Engagement (typo fix, requires downstream coordination)",
+    "RESOLVED 2026-03-28: Renamed directory Community_Engagment -> Community_Engagement (typo fix, all downstream refs updated)",
     "Archive 7 OneDrive sync duplicates (files with '(1)' suffix)",
     "Archive 4 config.json.backup_* files",
     "Delete tmpclaude-974f-cwd temp file",
@@ -62,7 +62,7 @@
     "task_schedule.xml runs as NT AUTHORITY\\SYSTEM -- verify this is intentional for scheduled ETL"
   ],
   "human_review_needed": [
-    "CRITICAL: Directory name typo 'Community_Engagment' (missing 'e') -- rename requires coordinated update across config.json, task_schedule.xml, M code paths, PBI data sources, and parent workspace references",
+    "RESOLVED 2026-03-28: Directory renamed from Community_Engagment to Community_Engagement. Task Scheduler XML needs manual re-import.",
     "CSB config.json sheet_name '26_01' does not match csb_processor.py default 'CSB_CommOut' -- resolve which is correct (source is disabled so not currently impactful)",
     "Decide whether to create requirements.txt and pin dependency versions",
     "Decide output retention policy: keep all 30+ timestamped exports or implement rotation",
@@ -70,5 +70,5 @@
     "Verify task_schedule.xml is registered in Windows Task Scheduler and functioning",
     "STACP additional_sheets ['25_Presentations', '25_Training Delivered'] are declared in config but stacp_processor.py only reads the primary sheet_name -- confirm if additional sheets should be processed"
   ],
-  "commit_message": "docs(Community_Engagment): audit, CLAUDE.md update, ETL pipeline map [swarm-run 2026-03-28]"
+  "commit_message": "docs(Community_Engagement): audit, CLAUDE.md update, ETL pipeline map [swarm-run 2026-03-28]"
 }

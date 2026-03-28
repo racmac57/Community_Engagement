@@ -21,7 +21,7 @@ All notable changes to this project will be documented here. The project follows
 - `SUMMARY.md` -- Refreshed with current status and known issues.
 
 ### Identified (not fixed)
-- Directory name typo: `Community_Engagment` should be `Community_Engagement`.
+- Directory name typo: `Community_Engagement` should be `Community_Engagement`.
 - 7 OneDrive sync duplicate files (`(1)` suffix).
 - 4 config.json backup files from 2026-02-19.
 - Missing `requirements.txt` (README references it).

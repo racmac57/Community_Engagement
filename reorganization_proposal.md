@@ -7,7 +7,7 @@
 
 ## 1. Directory Name Typo
 
-**Current:** `Community_Engagment` (missing 'e')
+**Current:** `Community_Engagement` (missing 'e')
 **Proposed:** `Community_Engagement`
 
 **WARNING:** This rename affects multiple downstream references:
@@ -15,7 +15,7 @@
 - `task_schedule.xml` working directory and arguments
 - `Combined_Outreach_All.m` OutputFolder path
 - `src/___Combined_Outreach_All.m` OutputFolder path
-- `Community_Engagment.code-workspace` filename
+- `Community_Engagement.code-workspace` filename
 - Git remote URL (`racmac57/Community_Engagement.git` -- already correct spelling)
 - Any parent-level scripts referencing this directory
 - Power BI data source configurations

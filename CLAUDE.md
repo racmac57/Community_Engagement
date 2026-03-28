@@ -1,6 +1,6 @@
 # Community Engagement ETL -- CLAUDE.md
 
-> **Repo**: `Community_Engagment` (note: directory name has typo -- should be `Engagement`)
+> **Repo**: `Community_Engagement`
 > **Remote**: `racmac57/Community_Engagement.git`
 > **Last Updated**: 2026-03-28
 > **Maintainer**: R. A. Carucci #261, SSOCC / Hackensack PD
@@ -145,7 +145,7 @@ Source Workbooks                       Configuration
 
 | File | Role |
 |------|------|
-| `Community_Engagment.code-workspace` | VS Code workspace file |
+| `Community_Engagement.code-workspace` | VS Code workspace file |
 | `task_schedule.xml` | Windows Task Scheduler config (monthly on 1st at 06:00) |
 | `Engagement Initiatives by Bureau.csv` | Before-update reference CSV |
 | `after_update_Engagement Initiatives by Bureau.csv` | After-update reference CSV |
@@ -221,7 +221,7 @@ All source paths defined in `config.json` using `C:\Users\carucci_r\...` base (j
 
 ## 7. Known Issues / Tech Debt
 
-1. **Directory name typo**: `Community_Engagment` missing 'e' -- should be `Community_Engagement`. Downstream references in config, task scheduler, M code all use the typo. Renaming requires coordinated update.
+1. ~~**Directory name typo**~~: RESOLVED 2026-03-28. Renamed from `Community_Engagment` to `Community_Engagement`. All downstream references updated. Task Scheduler XML still needs manual re-import.
 2. **Duplicate M code files**: `Combined_Outreach_All.m` (root) and `src/___Combined_Outreach_All.m` are functionally identical. Should consolidate.
 3. **OneDrive sync duplicates**: Multiple `(1)` files from sync conflicts (CHANGELOG, README, SUMMARY, logs, task_schedule).
 4. **Config backup proliferation**: 4 `.backup_*` files in root from 2026-02-19.
@@ -253,7 +253,7 @@ OneDrive root resolves via two junctions:
 ## 9. Running the Pipeline
 
 ```powershell
-cd "C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagment"
+cd "C:\Users\carucci_r\OneDrive - City of Hackensack\02_ETL_Scripts\Community_Engagement"
 python src/main_processor.py
 ```
 

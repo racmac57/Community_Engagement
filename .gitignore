@@ -41,6 +41,15 @@ desktop.ini
 # Sensitive config (credential fields -- even if currently blank)
 production_config.json
 
+# Standard patterns (swarm audit 2026-03-28)
+*.xlsx~
+*.xlsm~
+.env
+*.env
+*.log
+archive/
+temp/
+
 # Do NOT ignore these:
 # config.json (needed for pipeline)
 # *.m (Power BI M code)

@@ -59,10 +59,16 @@ OUTPUT_COLS = [
 REQUIRED_SOURCE_COLS = [
     "ReportNumberNew", "Time of Call", "Time Out Display", "Time In Display",
     "Incident", "SelfJoinCADNumber::Business Name", "St Number", "StreetName",
-    "Officer", "Squad", "Summons", "Warning",
+    "Officer", "Squad", "DispatcherNew",
 ]
 
 PATROL_SQUADS = {"A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4"}
+
+# Memorial-CAD guard: an officer who is also the DispatcherNew (created the CAD to
+# memorialize an event) produces near-zero durations. Treat sub-2-min spans as
+# log artifacts and impute a 30-minute default.
+MEMORIAL_MAX_HOURS = 2 / 60.0
+IMPUTED_HOURS = 0.5
 
 log = get_project_logger("ce_cad_etl", "INFO")
 
@@ -136,6 +142,39 @@ def loc_match(cad_loc, stacp_loc) -> bool:
     return len(inter) / len(union) >= 0.5  # Jaccard
 
 
+_COMBINED_SEP = _re.compile(r"\b(?:and)\b|[/&,]|\+")
+
+
+def is_combined_loc(v) -> bool:
+    """Heuristic: one STACP row crammed with 2+ places ('Jackson and Fairmount', 'A / B')."""
+    return bool(_COMBINED_SEP.search(str(v).lower())) if not _blank(v) else False
+
+
+def loc_partial_match(cad_loc, stacp_loc) -> bool:
+    """CAD location matches ONE component of a combined STACP location."""
+    ca = norm_loc_tokens(cad_loc)
+    if not ca:
+        return False
+    for part in _re.split(r"\band\b|[/&,]|\+", str(stacp_loc).lower()):
+        if loc_match(cad_loc, part):
+            return True
+    # token containment fallback (e.g. 'jackson' present in combined string)
+    cb = norm_loc_tokens(stacp_loc)
+    return len(ca & cb) >= 1
+
+
+def officer_to_stacp_initial(officer) -> str:
+    """'Lt. Anthony DiPersia 266' -> 'A. DiPersia' (STACP Attendees convention)."""
+    if _blank(officer):
+        return ""
+    toks = str(officer).strip().split()
+    toks = [t for t in toks if not t.rstrip(".").isdigit()]      # drop badge number
+    toks = [t for t in toks if not t.endswith(".")]              # drop rank (Lt./Sgt./Det./P.O.)
+    if len(toks) >= 2:
+        return f"{toks[0][0]}. {' '.join(toks[1:])}"
+    return " ".join(toks)
+
+
 def build_location(biz, st_number, street) -> str:
     if not _blank(biz):
         return str(biz).strip()
@@ -193,7 +232,7 @@ def wave1_inventory(df: pd.DataFrame, source: Path) -> dict:
 
     print(f"  source            : {source.name}")
     print(f"  col_count         : {len(actual_cols)} (header len)")
-    print(f"  required 12 cols  : ALL PRESENT")
+    print(f"  required cols     : ALL {len(REQUIRED_SOURCE_COLS)} PRESENT")
     print(f"  total_rows        : {len(df)}")
     print(f"  may2026_rows      : {may_rows}")
     print(f"  out_of_range_rows : {out_of_range}")
@@ -225,12 +264,13 @@ def wave2_transform(df: pd.DataFrame, source: Path, inv: dict):
     processed = datetime.datetime.now().isoformat(timespec="seconds")
     data_source = f"CAD:CE_monthly:{source.name}"
 
-    out_rows, sta_rows, csb_rows = [], [], []
+    out_rows, sta_rows, csb_rows, imputed = [], [], [], []
     for idx, r in df.iterrows():
         if not inv["in_month"].iloc[idx]:
             continue  # out-of-range already counted in Wave 1
         dest, office, division = route(r["Squad"])
         toc = pd.to_datetime(r["Time of Call"], errors="coerce")
+        toc_hhmm = "" if pd.isna(toc) else f"{toc.hour:02d}:{toc.minute:02d}"
         rec = {
             "date": toc.date().isoformat() if not pd.isna(toc) else "",
             "start_time": td_to_hhmm(r["Time Out Display"]),
@@ -248,6 +288,9 @@ def wave2_transform(df: pd.DataFrame, source: Path, inv: dict):
             "processed_date": processed,
             "_squad": str(r["Squad"]).strip(),
             "_cad": norm_case(r["ReportNumberNew"]),
+            "_toc_hhmm": toc_hhmm,
+            "_dispatcher": "" if _blank(r["DispatcherNew"]) else str(r["DispatcherNew"]).strip(),
+            "_imputed_duration": False,
         }
         ho = safe_duration_to_hours(r["Time Out Display"], default=float("nan"))
         hi = safe_duration_to_hours(r["Time In Display"], default=float("nan"))
@@ -255,7 +298,17 @@ def wave2_transform(df: pd.DataFrame, source: Path, inv: dict):
             dur = round(hi - ho, 4)
             if dur < 0:
                 raise SystemExit(f"FAIL Wave2: negative duration row {idx} ({dur}h)")
-            rec["duration_hours"] = dur
+            if dur < MEMORIAL_MAX_HOURS:  # memorial CAD -> impute 30 min
+                rec["duration_hours"] = IMPUTED_HOURS
+                rec["_imputed_duration"] = True
+                if rec["start_time"]:  # keep end_time consistent with imputed span
+                    sh, sm = (int(x) for x in rec["start_time"].split(":"))
+                    end = (datetime.datetime(2000, 1, 1, sh, sm) +
+                           datetime.timedelta(hours=IMPUTED_HOURS))
+                    rec["end_time"] = f"{end.hour:02d}:{end.minute:02d}"
+                imputed.append(rec)
+            else:
+                rec["duration_hours"] = dur
 
         if dest == "csv":
             out_rows.append(rec)
@@ -288,14 +341,25 @@ def wave2_transform(df: pd.DataFrame, source: Path, inv: dict):
     print(f"  sta_rows    : {len(sta_rows)}")
     print(f"  csb_rows    : {len(csb_rows)}")
     print(f"  duplicates  : {len(dups)}")
+    print(f"  imputed_30m : {len(imputed)} (sub-2-min memorial CADs -> 0.5h)")
     print(f"  TRIPWIRE: {len(out_rows)+len(sta_rows)+len(csb_rows)} | {len(out_rows)} | "
-          f"{len(sta_rows)} | {len(csb_rows)} | {len(dups)}")
+          f"{len(sta_rows)} | {len(csb_rows)} | {len(dups)} | imputed={len(imputed)}")
 
     print("\n  --- GATE 2a: transformed output rows (12 fields) ---")
     for rec in out_rows:
-        print("   " + " | ".join(f"{c}={rec[c]}" for c in OUTPUT_COLS))
+        flag = "  <-- duration imputed 0.5h (memorial CAD)" if rec["_imputed_duration"] else ""
+        print("   " + " | ".join(f"{c}={rec[c]}" for c in OUTPUT_COLS) + flag)
     print("\n  --- GATE 2b: duplicate flags ---")
     print("    " + ("none" if not dups else str(dups)))
+    print("\n  --- GATE 2b2: imputed-duration rows (span < 2 min -> 0.5h) ---")
+    print("        (self = officer is also DispatcherNew, i.e. logged their own CAD)")
+    if not imputed:
+        print("    none")
+    for rec in imputed:
+        self_flag = " [SELF]" if officer_to_stacp_initial(rec["attendee_names"]).split(". ")[-1].lower() \
+            in rec["_dispatcher"].lower() else ""
+        print(f"    {rec['date']} | {rec['attendee_names']} | dispatcher={rec['_dispatcher']}{self_flag} "
+              f"| {rec['location']} -> 0.5h")
     print("\n  --- GATE 2c: STA rows (-> verification) ---")
     for rec in sta_rows:
         print(f"    CAD#={rec['_cad']} | {rec['date']} | {rec['event_name']} | {rec['attendee_names']}")
@@ -303,7 +367,7 @@ def wave2_transform(df: pd.DataFrame, source: Path, inv: dict):
     for rec in csb_rows:
         print(f"    CAD#={rec['_cad']} | {rec['date']} | {rec['event_name']} | {rec['attendee_names']}")
     print("  Wave 2: PASS")
-    return out_rows, sta_rows, csb_rows, dups
+    return out_rows, sta_rows, csb_rows, dups, imputed
 
 
 def read_stacp_outreach():
@@ -341,9 +405,12 @@ def wave3_stacp_verify(sta_rows):
             by_date.setdefault(r["date"], []).append(r)
 
     # Match key: date + normalized location (CAD# in STACP is rarely entered).
-    # PRESENT  = same-date STACP row whose location matches the CAD location.
-    # CONFLICT = same-date STACP row(s) exist but none location-match (candidates listed).
-    # MISSING  = no same-date STACP row at all.
+    # PRESENT         = same-date STACP row whose location matches the CAD location.
+    # SPLIT_SUGGESTED = same-date STACP row crams 2+ places ('Jackson and Fairmount')
+    #                   and the CAD location matches ONE component -> recommend splitting
+    #                   the combined row into separate rows.
+    # CONFLICT        = same-date STACP row(s) exist but no location match (candidates listed).
+    # MISSING         = no same-date STACP row at all.
     results = []
     for rec in sta_rows:
         try:
@@ -352,10 +419,14 @@ def wave3_stacp_verify(sta_rows):
             rdate = None
         same_day = by_date.get(rdate, []) if rdate is not None else []
         loc_hit = next((r for r in same_day if loc_match(rec["location"], r["location"])), None)
+        split_hit = next((r for r in same_day
+                          if is_combined_loc(r["location"]) and loc_partial_match(rec["location"], r["location"])), None)
         if loc_hit is not None:
-            cls = "PRESENT"
-            matched = loc_hit["rowidx"]
+            cls, matched = "PRESENT", loc_hit["rowidx"]
             matched_loc = loc_hit["location"]
+        elif split_hit is not None:
+            cls, matched = "SPLIT_SUGGESTED", split_hit["rowidx"]
+            matched_loc = split_hit["location"]
         elif same_day:
             cls = "CONFLICT"
             matched = [r["rowidx"] for r in same_day]
@@ -365,28 +436,73 @@ def wave3_stacp_verify(sta_rows):
         results.append({**rec, "classification": cls, "matched_row": matched,
                         "matched_loc": matched_loc})
 
+    proposals = build_stacp_proposals(results)
+
     after = mtime(STACP_PATH)
     unchanged = before == after
-    n_present = sum(1 for r in results if r["classification"] == "PRESENT")
-    n_missing = sum(1 for r in results if r["classification"] == "MISSING")
-    n_conflict = sum(1 for r in results if r["classification"] == "CONFLICT")
+    counts = {c: sum(1 for r in results if r["classification"] == c)
+              for c in ("PRESENT", "SPLIT_SUGGESTED", "CONFLICT", "MISSING")}
 
     print("  --- STACP VERIFICATION REPORT (match: date + location) ---")
     for r in results:
         print(f"    {r['date']} | CAD_loc={r['location']!r} | {r['classification']} "
               f"| matched_row={r['matched_row']} | stacp_loc={r['matched_loc']!r}")
-    print(f"  TRIPWIRE: present={n_present} | missing={n_missing} | conflict={n_conflict} "
+    print(f"  TRIPWIRE: present={counts['PRESENT']} | split={counts['SPLIT_SUGGESTED']} "
+          f"| conflict={counts['CONFLICT']} | missing={counts['MISSING']} "
           f"| stacp_mtime_unchanged={unchanged}")
+    if proposals:
+        print("  --- PROPOSED Master_Outreach entries (paste-ready) ---")
+        for p in proposals:
+            print(f"    [{p['_reason']}] {p['Event ID']} | {p['Date']} | {p['Start Time']}-{p['End Time']} "
+                  f"| CAD#={p['CAD#']} | {p['School Outreach Conducted']} | {p['Location']} | {p['Attendees']}")
     if len(results) != len(sta_rows):
         raise SystemExit("FAIL Wave3: verification row count mismatch")
     if not unchanged:
         raise SystemExit("FAIL Wave3: STACP.xlsm mtime changed")
     print("  Wave 3: PASS")
-    return results
+    return results, proposals
+
+
+STACP_PROPOSAL_COLS = [
+    "Event ID", "Date", "Start Time", "End Time", "Total Time", "CAD#",
+    "School Outreach Conducted", "Location", "Attendees",
+]
+
+
+def build_stacp_proposals(results):
+    """Generate paste-ready Master_Outreach rows from CAD data for rows STACP is
+    missing (MISSING) or where a combined STACP row should be split (SPLIT_SUGGESTED).
+    Start = Time of Call; End = Start + 30 min (memorial CADs lack a real span)."""
+    proposals = []
+    for r in results:
+        cls = r["classification"]
+        if cls not in ("MISSING", "SPLIT_SUGGESTED"):
+            continue
+        start = r.get("_toc_hhmm") or r.get("start_time") or ""
+        end = ""
+        if start:
+            sh, sm = (int(x) for x in start.split(":"))
+            e = datetime.datetime(2000, 1, 1, sh, sm) + datetime.timedelta(hours=IMPUTED_HOURS)
+            end = f"{e.hour:02d}:{e.minute:02d}"
+        eid = r["date"].replace("-", "") + "-001" if r["date"] else ""
+        proposals.append({
+            "Event ID": eid,
+            "Date": r["date"],
+            "Start Time": start,
+            "End Time": end,
+            "Total Time": IMPUTED_HOURS,
+            "CAD#": r["_cad"],
+            "School Outreach Conducted": r["event_name"],
+            "Location": r["location"],
+            "Attendees": officer_to_stacp_initial(r["attendee_names"]),
+            "_reason": ("MISSING -> new row" if cls == "MISSING"
+                        else f"SPLIT row {r['matched_row']} ({r['matched_loc']}) -> this half"),
+        })
+    return proposals
 
 
 # ---------------------------------------------------------------- write
-def wave4_write(out_rows, sta_results, csb_rows, source: Path, dups):
+def wave4_write(out_rows, sta_results, csb_rows, source: Path, dups, imputed, proposals):
     print("\n=== WAVE 4 — Write CSV + reports ===")
     before = {p: mtime(p) for p in (source, STACP_PATH, PATROL_PATH, CE_WB_PATH)}
 
@@ -415,8 +531,9 @@ def wave4_write(out_rows, sta_results, csb_rows, source: Path, dups):
         raise SystemExit(f"FAIL Wave4: target exists (won't overwrite): {csv_path}")
     out_df.to_csv(csv_path, index=False)
 
-    _write_stacp_report(sta_results)
+    _write_stacp_report(sta_results, imputed)
     _write_unrouted_report(csb_rows)
+    proposals_path = _write_proposals_csv(proposals)
 
     after = {p: mtime(p) for p in before}
     unmodified = all(before[p] == after[p] for p in before)
@@ -426,6 +543,7 @@ def wave4_write(out_rows, sta_results, csb_rows, source: Path, dups):
     print(f"  csv_path  : {csv_path}")
     print(f"  csv_rows  : {len(out_df)}")
     print(f"  csv_cols  : {len(out_df.columns)}")
+    print(f"  proposals : {len(proposals)} -> {proposals_path.name if proposals_path else '(none)'}")
     print(f"  TRIPWIRE: {len(out_df)} | {len(out_df.columns)} | "
           f"source_workbooks_unmodified={unmodified} | docs_written=True")
     print("  first 3 rows:")
@@ -435,7 +553,7 @@ def wave4_write(out_rows, sta_results, csb_rows, source: Path, dups):
     return csv_path
 
 
-def _write_stacp_report(results):
+def _write_stacp_report(results, imputed=None):
     lines = [
         "# STACP Verification Report — May 2026 (ce-cad-etl)", "",
         f"Generated: {datetime.datetime.now().isoformat(timespec='seconds')}",
@@ -452,10 +570,47 @@ def _write_stacp_report(results):
               "e.g. 'M & M Center' = 'MM Center'), then collapsed-equality / containment / "
               "token-Jaccard ≥ 0.5.", "",
               "**Legend:** PRESENT = same-date STACP row whose location matches (no action). "
-              "CONFLICT = same-date row(s) exist but location did not match — review candidates, "
-              "confirm or add. MISSING = no STACP row on that date — requires manual entry in "
-              "STACP.xlsm!Master_Outreach.", ""]
+              "SPLIT_SUGGESTED = a combined STACP row (e.g. 'Jackson and Fairmount') holds 2+ "
+              "events; CAD matches one — split the row so each event stands alone. "
+              "CONFLICT = same-date row(s) exist but location did not match — review candidates. "
+              "MISSING = no STACP row on that date — requires manual entry.", ""]
+
+    # paste-ready proposed entries
+    proposals = build_stacp_proposals(results)
+    if proposals:
+        lines += ["## Proposed Master_Outreach entries (paste-ready)", "",
+                  "Generated from the CAD export for MISSING / SPLIT_SUGGESTED rows. "
+                  "Memorial CADs have no real span, so **Start = Time of Call, End = Start + 30 min, "
+                  "Total Time = 0.5 h**. Review before pasting; also TSV at "
+                  "`docs/2026_05_stacp_proposed_entries.csv`.", "",
+                  "| " + " | ".join(STACP_PROPOSAL_COLS) + " | Reason |",
+                  "|" + "---|" * (len(STACP_PROPOSAL_COLS) + 1)]
+        for p in proposals:
+            lines.append("| " + " | ".join(str(p[c]) for c in STACP_PROPOSAL_COLS) +
+                         f" | {p['_reason']} |")
+        lines.append("")
+
+    if imputed:
+        lines += ["## Duration imputed (near-zero span)", "",
+                  "Rows whose CAD span was under 2 minutes — a log-only/memorial CAD with no real "
+                  "duration — replaced with a 30-minute default in the output CSV. `DispatcherNew` "
+                  "shown for context (officer == dispatcher ⇒ self-logged).", "",
+                  "| Date | Officer | DispatcherNew | Location |", "|---|---|---|---|"]
+        for r in imputed:
+            lines.append(f"| {r['date']} | {r['attendee_names']} | {r['_dispatcher']} | {r['location']} |")
+        lines.append("")
+
     (DOCS_DIR / "2026_05_stacp_verification.md").write_text("\n".join(lines), encoding="utf-8")
+
+
+def _write_proposals_csv(proposals):
+    if not proposals:
+        return None
+    path = DOCS_DIR / "2026_05_stacp_proposed_entries.csv"
+    df = pd.DataFrame([{c: p[c] for c in STACP_PROPOSAL_COLS} for p in proposals],
+                      columns=STACP_PROPOSAL_COLS)
+    df.to_csv(path, index=False)
+    return path
 
 
 def _write_unrouted_report(csb_rows):
@@ -491,15 +646,15 @@ def main():
     df["ReportNumberNew"] = df["ReportNumberNew"].apply(norm_case)  # preserve case-number string
 
     inv = wave1_inventory(df, source)
-    out_rows, sta_rows, csb_rows, dups = wave2_transform(df, source, inv)
-    sta_results = wave3_stacp_verify(sta_rows)
+    out_rows, sta_rows, csb_rows, dups, imputed = wave2_transform(df, source, inv)
+    sta_results, proposals = wave3_stacp_verify(sta_rows)
 
     if args.write:
-        csv_path = wave4_write(out_rows, sta_results, csb_rows, source, dups)
+        csv_path = wave4_write(out_rows, sta_results, csb_rows, source, dups, imputed, proposals)
         print("\n=== COMPLETION ===")
         print(f"  Source: {source.name} | CAD rows {len(df)} | May rows {inv['may_rows']} | "
               f"Output {len(out_rows)} | STA verify {len(sta_rows)} | CSB unrouted {len(csb_rows)} | "
-              f"dups {len(dups)}")
+              f"dups {len(dups)} | imputed {len(imputed)} | proposals {len(proposals)}")
         print(f"  CSV: {csv_path}")
     else:
         print("\n[DRY-RUN] Waves 1-3 complete, no writes. Re-run with --write for Wave 4.")

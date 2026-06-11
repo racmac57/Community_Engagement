@@ -46,7 +46,10 @@ DROPEXPORTS = ONEDRIVE_ROOT / "PowerBI_Data" / "_DropExports"
 DOCS_DIR = REPO_ROOT / "docs"
 
 DEFAULT_SOURCE = CAD_MONTHLY_DIR / "2026_05_CE.xlsx"
+# Target month is derived from the source filename (YYYY_MM_CE.xlsx) at runtime;
+# these are defaults overwritten in main(). MONTH_TAG drives doc filenames/titles.
 TARGET_YEAR, TARGET_MONTH = 2026, 5
+MONTH_TAG = "2026_05"
 SHEET = "Sheet1"
 
 # 12-field output contract (exact order)
@@ -234,7 +237,7 @@ def wave1_inventory(df: pd.DataFrame, source: Path) -> dict:
     print(f"  col_count         : {len(actual_cols)} (header len)")
     print(f"  required cols     : ALL {len(REQUIRED_SOURCE_COLS)} PRESENT")
     print(f"  total_rows        : {len(df)}")
-    print(f"  may2026_rows      : {may_rows}")
+    print(f"  in_month_rows     : {may_rows} ({MONTH_TAG})")
     print(f"  out_of_range_rows : {out_of_range}")
     print(f"  squad_counts      : {squad_counts}")
     print(f"  duration timedelta: TimeOut={tout_td} TimeIn={tin_td}")
@@ -246,7 +249,7 @@ def wave1_inventory(df: pd.DataFrame, source: Path) -> dict:
         raise SystemExit("FAIL Wave1: 0 rows")
     if not (tout_td and tin_td):
         raise SystemExit("FAIL Wave1: duration columns are not timedelta")
-    print(f"  TRIPWIRE: {len(df)} | {may_rows} | {out_of_range} | {squad_counts}")
+    print(f"  TRIPWIRE: {len(df)} | in_month={may_rows} | {out_of_range} | {squad_counts}")
     print("  Wave 1: PASS")
 
     # conservation inputs from RAW squad values (pre-transform, independent)
@@ -296,9 +299,9 @@ def wave2_transform(df: pd.DataFrame, source: Path, inv: dict):
         hi = safe_duration_to_hours(r["Time In Display"], default=float("nan"))
         if not (math.isnan(ho) or math.isnan(hi)):
             dur = round(hi - ho, 4)
-            if dur < 0:
+            if dur <= -MEMORIAL_MAX_HOURS:  # real time inversion -> stop (data error)
                 raise SystemExit(f"FAIL Wave2: negative duration row {idx} ({dur}h)")
-            if dur < MEMORIAL_MAX_HOURS:  # memorial CAD -> impute 30 min
+            if dur < MEMORIAL_MAX_HOURS:  # near-zero (incl tiny clock-rounded negative) -> memorial
                 rec["duration_hours"] = IMPUTED_HOURS
                 rec["_imputed_duration"] = True
                 if rec["start_time"]:  # keep end_time consistent with imputed span
@@ -328,10 +331,12 @@ def wave2_transform(df: pd.DataFrame, source: Path, inv: dict):
         if _blank(rec["office"]):
             raise SystemExit("FAIL Wave2: blank office in output row")
 
-    # duplicate flag on (date, event_name, attendee_names) — surface only
+    # duplicate flag on (date, event_name, location, attendee_names) — surface only.
+    # location is part of the key: same officer at two locations same day = two real
+    # events, not a duplicate.
     seen, dups = {}, []
     for rec in out_rows:
-        key = (rec["date"], rec["event_name"], rec["attendee_names"])
+        key = (rec["date"], rec["event_name"], rec["location"], rec["attendee_names"])
         seen.setdefault(key, []).append(rec)
     for key, recs in seen.items():
         if len(recs) > 1:
@@ -551,7 +556,7 @@ def wave4_write(out_rows, sta_results, csb_rows, source: Path, dups, imputed, pr
 
 def _write_stacp_report(results, imputed=None):
     lines = [
-        "# STACP Verification Report — May 2026 (ce-cad-etl)", "",
+        f"# STACP Verification Report — {MONTH_TAG} (ce-cad-etl)", "",
         f"Generated: {datetime.datetime.now().isoformat(timespec='seconds')}",
         "Source: STACP.xlsm!Master_Outreach (READ-ONLY). Match key: **date (col B) + "
         "location (col I)**. CAD# (col G) shown for reference only — rarely entered.", "",
@@ -579,7 +584,7 @@ def _write_stacp_report(results, imputed=None):
                   "Generated from the CAD export for MISSING / SPLIT_SUGGESTED rows. "
                   "Memorial CADs have no real span, so **Start = Time of Call, End = Start + 30 min, "
                   "Total Time = 0.5 h**. Review before pasting; also TSV at "
-                  "`docs/2026_05_stacp_proposed_entries.csv`.", "",
+                  f"`docs/{MONTH_TAG}_stacp_proposed_entries.csv`.", "",
                   "| " + " | ".join(STACP_PROPOSAL_COLS) + " | Reason |",
                   "|" + "---|" * (len(STACP_PROPOSAL_COLS) + 1)]
         for p in proposals:
@@ -597,13 +602,13 @@ def _write_stacp_report(results, imputed=None):
             lines.append(f"| {r['date']} | {r['attendee_names']} | {r['location']} |")
         lines.append("")
 
-    (DOCS_DIR / "2026_05_stacp_verification.md").write_text("\n".join(lines), encoding="utf-8")
+    (DOCS_DIR / f"{MONTH_TAG}_stacp_verification.md").write_text("\n".join(lines), encoding="utf-8")
 
 
 def _write_proposals_csv(proposals):
     if not proposals:
         return None
-    path = DOCS_DIR / "2026_05_stacp_proposed_entries.csv"
+    path = DOCS_DIR / f"{MONTH_TAG}_stacp_proposed_entries.csv"
     df = pd.DataFrame([{c: p[c] for c in STACP_PROPOSAL_COLS} for p in proposals],
                       columns=STACP_PROPOSAL_COLS)
     df.to_csv(path, index=False)
@@ -612,7 +617,7 @@ def _write_proposals_csv(proposals):
 
 def _write_unrouted_report(csb_rows):
     lines = [
-        "# Unrouted Report — May 2026 (ce-cad-etl)", "",
+        f"# Unrouted Report — {MONTH_TAG} (ce-cad-etl)", "",
         f"Generated: {datetime.datetime.now().isoformat(timespec='seconds')}",
         "Rows excluded from the combined CSV. Reason: **CSB disabled** "
         "(csb_monthly.xlsm is COMPSTAT activity tracking, not an outreach event log).", "",
@@ -625,12 +630,12 @@ def _write_unrouted_report(csb_rows):
     if not csb_rows:
         lines.append("| _none_ | | | | | |")
     lines.append("")
-    (DOCS_DIR / "2026_05_unrouted_report.md").write_text("\n".join(lines), encoding="utf-8")
+    (DOCS_DIR / f"{MONTH_TAG}_unrouted_report.md").write_text("\n".join(lines), encoding="utf-8")
 
 
 # ---------------------------------------------------------------- main
 def main():
-    ap = argparse.ArgumentParser(description="CE CAD ETL — May 2026")
+    ap = argparse.ArgumentParser(description="CE CAD ETL — month derived from source filename")
     ap.add_argument("--source", default=str(DEFAULT_SOURCE), help="CAD CE monthly export path")
     ap.add_argument("--write", action="store_true", help="Wave 4: write CSV + reports (default: dry-run)")
     args = ap.parse_args()
@@ -638,6 +643,15 @@ def main():
     source = Path(args.source)
     if not source.exists():
         raise SystemExit(f"FAIL: source not found: {source}")
+
+    # derive target year/month + doc tag from filename 'YYYY_MM_CE.xlsx'
+    m = _re.match(r"(\d{4})_(\d{2})_CE", source.stem)
+    if not m:
+        raise SystemExit(f"FAIL: cannot parse YYYY_MM from filename: {source.name}")
+    global TARGET_YEAR, TARGET_MONTH, MONTH_TAG
+    TARGET_YEAR, TARGET_MONTH = int(m.group(1)), int(m.group(2))
+    MONTH_TAG = f"{TARGET_YEAR}_{TARGET_MONTH:02d}"
+    print(f"[target] {MONTH_TAG} from {source.name}")
 
     df = pd.read_excel(source, sheet_name=SHEET, engine="openpyxl")
     df["ReportNumberNew"] = df["ReportNumberNew"].apply(norm_case)  # preserve case-number string
@@ -649,7 +663,7 @@ def main():
     if args.write:
         csv_path = wave4_write(out_rows, sta_results, csb_rows, source, dups, imputed, proposals)
         print("\n=== COMPLETION ===")
-        print(f"  Source: {source.name} | CAD rows {len(df)} | May rows {inv['may_rows']} | "
+        print(f"  Source: {source.name} | CAD rows {len(df)} | in-month rows {inv['may_rows']} | "
               f"Output {len(out_rows)} | STA verify {len(sta_rows)} | CSB unrouted {len(csb_rows)} | "
               f"dups {len(dups)} | imputed {len(imputed)} | proposals {len(proposals)}")
         print(f"  CSV: {csv_path}")

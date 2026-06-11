@@ -351,15 +351,11 @@ def wave2_transform(df: pd.DataFrame, source: Path, inv: dict):
         print("   " + " | ".join(f"{c}={rec[c]}" for c in OUTPUT_COLS) + flag)
     print("\n  --- GATE 2b: duplicate flags ---")
     print("    " + ("none" if not dups else str(dups)))
-    print("\n  --- GATE 2b2: imputed-duration rows (span < 2 min -> 0.5h) ---")
-    print("        (self = officer is also DispatcherNew, i.e. logged their own CAD)")
+    print("\n  --- GATE 2b2: duration normalized (span < 2 min -> 0.5h default) ---")
     if not imputed:
         print("    none")
     for rec in imputed:
-        self_flag = " [SELF]" if officer_to_stacp_initial(rec["attendee_names"]).split(". ")[-1].lower() \
-            in rec["_dispatcher"].lower() else ""
-        print(f"    {rec['date']} | {rec['attendee_names']} | dispatcher={rec['_dispatcher']}{self_flag} "
-              f"| {rec['location']} -> 0.5h")
+        print(f"    {rec['date']} | {rec['attendee_names']} | {rec['location']} -> 0.5h")
     print("\n  --- GATE 2c: STA rows (-> verification) ---")
     for rec in sta_rows:
         print(f"    CAD#={rec['_cad']} | {rec['date']} | {rec['event_name']} | {rec['attendee_names']}")
@@ -569,11 +565,12 @@ def _write_stacp_report(results, imputed=None):
     lines += ["", "**Match logic:** location normalized (lowercased, non-alphanumerics stripped; "
               "e.g. 'M & M Center' = 'MM Center'), then collapsed-equality / containment / "
               "token-Jaccard ≥ 0.5.", "",
-              "**Legend:** PRESENT = same-date STACP row whose location matches (no action). "
-              "SPLIT_SUGGESTED = a combined STACP row (e.g. 'Jackson and Fairmount') holds 2+ "
-              "events; CAD matches one — split the row so each event stands alone. "
-              "CONFLICT = same-date row(s) exist but location did not match — review candidates. "
-              "MISSING = no STACP row on that date — requires manual entry.", ""]
+              "**Legend:** PRESENT = STACP already has this event (no action). "
+              "SPLIT_SUGGESTED = a combined STACP row holds 2+ events and CAD matches one — the "
+              "CAD-backed half is provided below as a paste-ready row. "
+              "CONFLICT = same-date row(s) exist but no location match. "
+              "MISSING = STACP has no row that day — a paste-ready row is provided below. "
+              "These are gap-fills generated from CAD; paste as-is, no follow-up required.", ""]
 
     # paste-ready proposed entries
     proposals = build_stacp_proposals(results)
@@ -591,13 +588,13 @@ def _write_stacp_report(results, imputed=None):
         lines.append("")
 
     if imputed:
-        lines += ["## Duration imputed (near-zero span)", "",
-                  "Rows whose CAD span was under 2 minutes — a log-only/memorial CAD with no real "
-                  "duration — replaced with a 30-minute default in the output CSV. `DispatcherNew` "
-                  "shown for context (officer == dispatcher ⇒ self-logged).", "",
-                  "| Date | Officer | DispatcherNew | Location |", "|---|---|---|---|"]
+        lines += ["## Duration normalized to 30 min", "",
+                  "A CAD span under 2 minutes is a log-only record, not a real event length. "
+                  "These are set to a 0.5 h default in the output CSV — a sensible floor, no "
+                  "per-row judgment needed.", "",
+                  "| Date | Officer | Location |", "|---|---|---|"]
         for r in imputed:
-            lines.append(f"| {r['date']} | {r['attendee_names']} | {r['_dispatcher']} | {r['location']} |")
+            lines.append(f"| {r['date']} | {r['attendee_names']} | {r['location']} |")
         lines.append("")
 
     (DOCS_DIR / "2026_05_stacp_verification.md").write_text("\n".join(lines), encoding="utf-8")

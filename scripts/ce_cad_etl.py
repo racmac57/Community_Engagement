@@ -1,20 +1,22 @@
 """
-CE CAD ETL — transform the CAD Community Engagement monthly export into the
-unified 12-field CSV, route rows by Squad, write a timestamped combined CSV to
-PowerBI_Data\\_DropExports, and emit STACP verification + unrouted reports.
+CE CAD ETL — QA companion for the CAD Community Engagement monthly export.
 
-Session: ce-etl-wave-plan-cad-routing-squad-mapping-2026-06-11
-Priority month: May 2026 (2026_05_CE.xlsx). READ-ONLY against all source
-workbooks; the only write target is the _DropExports CSV plus docs/ reports.
+Production transform now lives in src/processors/cad_ce_processor.py (CADCEProcessor),
+wired as the FIFTH source of the combined CE feed in main_processor.combine_data().
+The production CSV is produced by main_processor -> output/. This script does NOT
+write the production CSV and must NOT write to PowerBI_Data\\_DropExports (that is
+the Power BI visual-export drop zone, routed by process_powerbi_exports.py).
 
-TODO(refactor): this is a standalone script reusing src/utils helpers. Once the
-CAD CE monthly export is a stable monthly source, fold this into the existing
-processor architecture as src/processors/cad_ce_processor.py wired through
-main_processor.combine_data(). Do not do that yet — kept standalone on purpose.
+What this script still does (read-only against sources; writes only docs/):
+  - preview the CAD->canonical transform (waves 1-2)
+  - STACP verification report (date+location match, SPLIT_SUGGESTED guard)
+  - paste-ready proposed Master_Outreach entries for MISSING/SPLIT rows
+  - unrouted (CSB) report
+These QA artifacts are not produced by the combine pipeline.
 
 Run:
-  python scripts/ce_cad_etl.py            # dry-run: waves 1-3, no writes
-  python scripts/ce_cad_etl.py --write    # waves 1-4: write CSV + reports
+  python scripts/ce_cad_etl.py            # dry-run preview + STACP verify, no writes
+  python scripts/ce_cad_etl.py --write    # also write the docs/ QA reports
 """
 
 from __future__ import annotations
@@ -504,33 +506,21 @@ def build_stacp_proposals(results):
 
 # ---------------------------------------------------------------- write
 def wave4_write(out_rows, sta_results, csb_rows, source: Path, dups, imputed, proposals):
-    print("\n=== WAVE 4 — Write CSV + reports ===")
+    """QA artifacts ONLY. Production CSV is produced by main_processor (CADCEProcessor
+    is the fifth combined-feed source) -> output/, NOT _DropExports. This script no
+    longer writes the production CSV; it emits the STACP verification, paste-ready
+    proposals, and unrouted reports that the combine pipeline does not generate."""
+    print("\n=== WAVE 4 — Write QA reports (no production CSV) ===")
     before = {p: mtime(p) for p in (source, STACP_PATH, PATROL_PATH, CE_WB_PATH)}
-
-    DROPEXPORTS.mkdir(parents=True, exist_ok=True)
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
 
-    # filename pattern from config (already points at _DropExports); dir derived path-agnostically
-    pattern = "community_engagement_data_{timestamp}.csv"
-    try:
-        cfg = ConfigLoader(config_dir=str(REPO_ROOT)).load_config("config")
-        pattern = cfg.get("output_settings", {}).get("filename_pattern", pattern)
-    except Exception as e:  # config optional; derive fallback
-        log.warning(f"config read failed, using default filename pattern: {e}")
-    ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    csv_path = DROPEXPORTS / pattern.format(timestamp=ts)
-
+    # validate the in-memory transform (no write) so the QA preview is trustworthy
     out_df = pd.DataFrame([{c: r[c] for c in OUTPUT_COLS} for r in out_rows], columns=OUTPUT_COLS)
-    if list(out_df.columns) != OUTPUT_COLS:
-        raise SystemExit("FAIL Wave4: column order mismatch")
     for _, r in out_df.iterrows():
         if _blank(r["office"]):
             raise SystemExit("FAIL Wave4: blank office")
         if not str(r["date"]).startswith(f"{TARGET_YEAR}-{TARGET_MONTH:02d}-"):
             raise SystemExit(f"FAIL Wave4: date outside target month: {r['date']}")
-    if csv_path.exists():  # archive-first: never overwrite
-        raise SystemExit(f"FAIL Wave4: target exists (won't overwrite): {csv_path}")
-    out_df.to_csv(csv_path, index=False)
 
     _write_stacp_report(sta_results, imputed)
     _write_unrouted_report(csb_rows)
@@ -541,17 +531,11 @@ def wave4_write(out_rows, sta_results, csb_rows, source: Path, dups, imputed, pr
     if not unmodified:
         raise SystemExit("FAIL Wave4: a source workbook mtime changed")
 
-    print(f"  csv_path  : {csv_path}")
-    print(f"  csv_rows  : {len(out_df)}")
-    print(f"  csv_cols  : {len(out_df.columns)}")
-    print(f"  proposals : {len(proposals)} -> {proposals_path.name if proposals_path else '(none)'}")
-    print(f"  TRIPWIRE: {len(out_df)} | {len(out_df.columns)} | "
-          f"source_workbooks_unmodified={unmodified} | docs_written=True")
-    print("  first 3 rows:")
-    for _, r in out_df.head(3).iterrows():
-        print("   " + " | ".join(f"{c}={r[c]}" for c in OUTPUT_COLS))
+    print(f"  preview_rows : {len(out_df)} (NOT written; production CSV = main_processor -> output/)")
+    print(f"  proposals    : {len(proposals)} -> {proposals_path.name if proposals_path else '(none)'}")
+    print(f"  TRIPWIRE: preview={len(out_df)} | source_workbooks_unmodified={unmodified} | docs_written=True")
     print("  Wave 4: PASS")
-    return csv_path
+    return None
 
 
 def _write_stacp_report(results, imputed=None):
@@ -661,14 +645,15 @@ def main():
     sta_results, proposals = wave3_stacp_verify(sta_rows)
 
     if args.write:
-        csv_path = wave4_write(out_rows, sta_results, csb_rows, source, dups, imputed, proposals)
-        print("\n=== COMPLETION ===")
+        wave4_write(out_rows, sta_results, csb_rows, source, dups, imputed, proposals)
+        print("\n=== COMPLETION (QA) ===")
         print(f"  Source: {source.name} | CAD rows {len(df)} | in-month rows {inv['may_rows']} | "
-              f"Output {len(out_rows)} | STA verify {len(sta_rows)} | CSB unrouted {len(csb_rows)} | "
+              f"routable {len(out_rows)} | STA verify {len(sta_rows)} | CSB unrouted {len(csb_rows)} | "
               f"dups {len(dups)} | imputed {len(imputed)} | proposals {len(proposals)}")
-        print(f"  CSV: {csv_path}")
+        print(f"  Docs: docs/{MONTH_TAG}_stacp_verification.md, _proposed_entries.csv, _unrouted_report.md")
+        print(f"  Production CSV: run main_processor (cad_ce is the 5th combined source) -> output/")
     else:
-        print("\n[DRY-RUN] Waves 1-3 complete, no writes. Re-run with --write for Wave 4.")
+        print("\n[DRY-RUN] Waves 1-3 complete, no writes. Re-run with --write for QA docs.")
 
 
 if __name__ == "__main__":

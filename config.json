@@ -1,34 +1,52 @@
+
 {
   "sources": {
     "community_engagement": {
       "file_path": "C:\\Users\\carucci_r\\OneDrive - City of Hackensack\\Shared Folder\\Compstat\\Contributions\\Community_Engagement\\Community_Engagement_Monthly.xlsx",
-      "sheet_name": "2025_Master",
-      "description": "Community Engagement division monthly events and activities"
+      "sheet_name": "Master_Log",
+      "description": "Community Engagement division events (master sheet; renamed from 2025_Master 2026-04-09)",
+      "disabled": false
     },
     "stacp": {
       "file_path": "C:\\Users\\carucci_r\\OneDrive - City of Hackensack\\Shared Folder\\Compstat\\Contributions\\STACP\\STACP.xlsm",
-      "sheet_name": "25_School_Outreach",
+      "sheet_name": "Master_Outreach",
       "additional_sheets": ["25_Presentations", "25_Training Delivered"],
-      "description": "Special Teams and Community Policing activities across multiple sheets"
+      "description": "Special Teams and Community Policing activities across multiple sheets",
+      "disabled": false
     },
     "patrol": {
       "file_path": "C:\\Users\\carucci_r\\OneDrive - City of Hackensack\\Shared Folder\\Compstat\\Contributions\\Patrol\\patrol_monthly.xlsm",
       "sheet_name": "Main_Outreach_Combined",
-      "description": "Patrol division community outreach activities"
+      "description": "Patrol division community outreach activities",
+      "disabled": false
     },
     "csb": {
       "file_path": "C:\\Users\\carucci_r\\OneDrive - City of Hackensack\\Shared Folder\\Compstat\\Contributions\\CSB\\csb_monthly.xlsm",
-      "sheet_name": "CSB_CommOut",
-      "description": "Community Services Bureau monthly statistics"
+      "sheet_name": "26_01",
+      "description": "DISABLED: csb_monthly.xlsm is COMPSTAT activity tracking (monthly grids), not an outreach event log. Re-enable only if CSB_CommOut (or equivalent) carries real outreach rows. See main_processor COMPSTAT safety filter.",
+      "disabled": true
+    },
+    "cad_ce": {
+      "file_path": "C:\\Users\\carucci_r\\OneDrive - City of Hackensack\\05_EXPORTS\\_CAD\\Community_Engagement\\monthly\\2026_05_CE.xlsx",
+      "sheet_name": "Sheet1",
+      "description": "CAD CE monthly export (one officer/row, routed by Squad). Gap-fills the manual workbooks; workbook is system of record (combine_data._dedup_cad_gapfill). MONTHLY: update file_path to the current YYYY_MM_CE.xlsx before each run.",
+      "disabled": false
     }
+  },
+  "date_range": {
+    "rolling_window_months": 13,
+    "enforce_window": true,
+    "date_field": "date",
+    "description": "13-month rolling window for Power BI visuals"
   },
   "output_settings": {
     "csv_export": true,
-    "excel_export": true,
+    "excel_export": false,
     "backup_files": true,
-    "output_directory": "output",
+    "output_directory": "C:\\Users\\carucci_r\\OneDrive - City of Hackensack\\PowerBI_Data\\_DropExports",
     "reports_directory": "reports",
-    "backups_directory": "backups"
+    "backups_directory": "backups",
+    "filename_pattern": "community_engagement_data_{timestamp}.csv"
   },
   "validation_rules": {
     "required_fields": [

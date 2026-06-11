@@ -47,6 +47,8 @@ class ExcelProcessor:
             self.validator.validate_file_exists(file_path)
             
             # Try reading with different engines for locked files
+            df = None
+            last_error: Optional[Exception] = None
             for engine in ['openpyxl', 'xlrd']:
                 try:
                     df = pd.read_excel(file_path, sheet_name=sheet_name, engine=engine)
@@ -54,8 +56,16 @@ class ExcelProcessor:
                 except PermissionError:
                     if engine == 'xlrd':  # Last attempt
                         raise ValidationError(f"File is locked or permission denied: {file_path}")
-                except Exception:
+                except Exception as ex:
+                    if last_error is None:
+                        last_error = ex
                     continue
+            
+            if df is None:
+                detail = f" ({last_error!r})" if last_error else ""
+                raise ValidationError(
+                    f"Could not read sheet '{sheet_name}' from {file_path} with openpyxl or xlrd.{detail}"
+                )
             
             # Handle missing sheet
             if df.empty:

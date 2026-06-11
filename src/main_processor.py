@@ -10,6 +10,7 @@ from pathlib import Path
 from datetime import datetime, timedelta
 import shutil
 import os
+import re
 from typing import Dict, List, Any, Optional
 
 import sys
@@ -19,11 +20,34 @@ from processors.community_engagement_processor import CommunityEngagementProcess
 from processors.stacp_processor import STACPProcessor
 from processors.patrol_processor import PatrolProcessor
 from processors.csb_processor import CSBProcessor
+from processors.cad_ce_processor import CADCEProcessor, cad_dedup_key
 from utils.logger_setup import setup_logger, log_operation_start, log_operation_end
 from utils.config_loader import ConfigLoader
 from utils.data_validator import ValidationError
 
 logger = setup_logger('main_processor')
+
+# CSB COMPSTAT workbook rows must never appear in outreach export (defense in depth; see config csb.disabled).
+_COMPSTAT_OFFICE_NAMES = frozenset(
+    {"crime suppression bureau", "csb"}
+)
+
+_COMPSTAT_EVENT_NAME_PATTERNS = [
+    r"\(Monthly Total\)",
+    r"^Arrests$",
+    r"^Motor Vehicle Stops$",
+    r"^Motor Vehicle Theft$",
+    r"^BWC Review",
+    r"^Warrant Arrests$",
+    r"^Subpoenas Generated$",
+    r"^Surveillance Reports$",
+    r"^Generated Complaints$",
+    r"^Drug-Related Arrests$",
+    r"^City Ordinance Citation$",
+    r"^Assist Outside Agency$",
+    r"^High Valued Item Seized$",
+]
+_COMPSTAT_EVENT_REGEX = re.compile("|".join(_COMPSTAT_EVENT_NAME_PATTERNS), re.IGNORECASE)
 
 
 class MainProcessor:
@@ -36,7 +60,8 @@ class MainProcessor:
             'community_engagement': CommunityEngagementProcessor(),
             'stacp': STACPProcessor(),
             'patrol': PatrolProcessor(),
-            'csb': CSBProcessor()
+            'csb': CSBProcessor(),
+            'cad_ce': CADCEProcessor()
         }
         self.processed_data = {}
         self.processing_summary = {
@@ -82,9 +107,12 @@ class MainProcessor:
         
         for source_name, config in source_configs.items():
             try:
-                # Skip disabled sources
+                # Skip disabled sources (e.g. csb: COMPSTAT tracker, not outreach events)
                 if config.get('disabled', False):
-                    logger.info(f"Skipping disabled source: {source_name}")
+                    logger.info(
+                        f"Skipping disabled source: {source_name} - "
+                        f"{config.get('description', 'see config.json')[:220]}"
+                    )
                     continue
                     
                 logger.info(f"Processing {source_name}...")
@@ -108,6 +136,14 @@ class MainProcessor:
                 # Process the data source
                 processed_df = processor.process_data_source(file_path, sheet_name)
                 self.processed_data[source_name] = processed_df
+                
+                # Patrol-specific logging for v2 attendee parsing stats
+                if source_name == 'patrol' and 'attendee_names' in processed_df.columns:
+                    logger.info(
+                        f"Patrol: {len(processed_df)} records, "
+                        f"{processed_df['attendee_count'].sum()} total attendees, "
+                        f"{(processed_df['attendee_names'] != '').sum()} with named personnel"
+                    )
                 
                 # Update summary
                 self.processing_summary['sources_processed'] += 1
@@ -143,6 +179,15 @@ class MainProcessor:
             # Combine all dataframes
             combined_df = pd.concat(combined_dfs, ignore_index=True, sort=False)
             
+            # Ensure attendee_names column exists for all sources (Patrol v2 produces it)
+            if 'attendee_names' not in combined_df.columns:
+                combined_df['attendee_names'] = ""
+            else:
+                combined_df['attendee_names'] = combined_df['attendee_names'].fillna("")
+            
+            combined_df = self._remove_compstat_contamination(combined_df)
+            combined_df = self._dedup_cad_gapfill(combined_df)
+
             # Validate combined data
             validation_results = self.validate_combined_data(combined_df)
             self.processing_summary['validation_results'] = validation_results
@@ -154,6 +199,82 @@ class MainProcessor:
             log_operation_end(logger, "combine_data", False, error=str(e))
             self.processing_summary['errors'].append(f"Data combination failed: {e}")
             raise
+    
+    def _dedup_cad_gapfill(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Gap-fill anti-join for the CAD source. The CAD export and the manual
+        workbooks can describe the same event; the workbook is the system of
+        record. Drop a cad_ce row when a NON-cad row already covers the same
+        event (key: date + normalized location; officer added when both sides
+        carry it — workbook CE rows usually don't, so the practical key is
+        date+location). CAD therefore only fills holes the workbooks miss.
+        """
+        if df.empty or 'data_source' not in df.columns:
+            return df
+        cad_mask = df['data_source'] == 'cad_ce'
+        if not cad_mask.any():
+            return df
+
+        non_cad = df.loc[~cad_mask]
+        workbook_loc_keys = {
+            cad_dedup_key(r['date'], r.get('location'))
+            for _, r in non_cad.iterrows()
+        }
+        workbook_off_keys = {
+            cad_dedup_key(r['date'], r.get('location'), r.get('attendee_names'))
+            for _, r in non_cad.iterrows() if str(r.get('attendee_names', '')).strip()
+        }
+
+        drop_idx = []
+        for i, r in df.loc[cad_mask].iterrows():
+            loc_key = cad_dedup_key(r['date'], r.get('location'))
+            off_key = cad_dedup_key(r['date'], r.get('location'), r.get('attendee_names'))
+            if loc_key in workbook_loc_keys or off_key in workbook_off_keys:
+                drop_idx.append(i)
+
+        if drop_idx:
+            logger.warning(
+                f"CAD gap-fill: dropped {len(drop_idx)} CAD row(s) duplicating a "
+                f"workbook event (date+location); workbook is system of record."
+            )
+            sample = df.loc[drop_idx, [c for c in ('date', 'location', 'office') if c in df.columns]]
+            logger.info(f"Dropped CAD duplicates:\n{sample.to_string()}")
+            return df.drop(index=drop_idx).reset_index(drop=True)
+        logger.info("CAD gap-fill: no CAD rows duplicated a workbook event; all retained.")
+        return df
+
+    def _remove_compstat_contamination(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Remove COMPSTAT productivity rows mistaken for outreach (CSB monthly sheets).
+        Runs after concat even when csb source is disabled — catches mis-added files or old runs.
+        """
+        if df.empty or 'event_name' not in df.columns:
+            return df
+        
+        office_lower = (
+            df['office'].astype(str).str.strip().str.lower()
+            if 'office' in df.columns
+            else pd.Series(False, index=df.index)
+        )
+        office_mask = office_lower.isin(_COMPSTAT_OFFICE_NAMES)
+        
+        event_series = df['event_name'].astype(str)
+        event_mask = event_series.str.contains(_COMPSTAT_EVENT_REGEX, na=False)
+        
+        contamination_mask = office_mask | event_mask
+        rows_removed = int(contamination_mask.sum())
+        if rows_removed == 0:
+            return df
+        
+        logger.warning(
+            f"SAFETY NET: Removed {rows_removed} non-outreach / COMPSTAT-style rows "
+            f"(office=CSB or event_name matched productivity patterns)"
+        )
+        audit_cols = [c for c in ('date', 'office', 'event_name', 'data_source') if c in df.columns]
+        if audit_cols:
+            logger.info(f"Removed rows (sample cols):\n{df.loc[contamination_mask, audit_cols].to_string()}")
+        
+        return df.loc[~contamination_mask].copy()
     
     def validate_combined_data(self, df: pd.DataFrame) -> Dict[str, Any]:
         """Validate data consistency between sources"""
@@ -254,13 +375,29 @@ class MainProcessor:
             
             if 'csv' in formats:
                 csv_file = output_path / f'community_engagement_data_{timestamp}.csv'
-                df.to_csv(csv_file, index=False)
+                # Column order for Power BI compatibility; attendee_names appended at end
+                export_columns = [
+                    "date", "start_time", "end_time", "event_name", "location",
+                    "duration_hours", "attendee_count", "office", "division",
+                    "attendee_names"
+                ]
+                # Add any extra columns (e.g. data_source, processed_date) after core schema
+                extra_cols = [c for c in df.columns if c not in export_columns]
+                final_columns = [c for c in export_columns if c in df.columns] + extra_cols
+                df[final_columns].to_csv(csv_file, index=False)
                 export_files['csv'] = str(csv_file)
             
             if 'excel' in formats:
                 excel_file = output_path / f'community_engagement_data_{timestamp}.xlsx'
                 with pd.ExcelWriter(excel_file, engine='openpyxl') as writer:
-                    df.to_excel(writer, sheet_name='Combined_Data', index=False)
+                    export_columns = [
+                        "date", "start_time", "end_time", "event_name", "location",
+                        "duration_hours", "attendee_count", "office", "division",
+                        "attendee_names"
+                    ]
+                    extra_cols = [c for c in df.columns if c not in export_columns]
+                    final_columns = [c for c in export_columns if c in df.columns] + extra_cols
+                    df[final_columns].to_excel(writer, sheet_name='Combined_Data', index=False)
                     
                     # Add summary sheet
                     summary_df = pd.DataFrame([self.processing_summary['validation_results']])
@@ -312,6 +449,21 @@ if __name__ == "__main__":
         # Generate outputs
         reports = processor.generate_reports(combined_data)
         exports = processor.export_data(combined_data)
+        
+        if not combined_data.empty and 'date' in combined_data.columns:
+            date_series = pd.to_datetime(combined_data['date'], errors='coerce').dropna()
+            dmin = date_series.min() if not date_series.empty else None
+            dmax = date_series.max() if not date_series.empty else None
+            offices = (
+                sorted(combined_data['office'].dropna().astype(str).unique().tolist())
+                if 'office' in combined_data.columns
+                else []
+            )
+            logger.info(
+                f"Output written: {len(combined_data)} rows | "
+                f"Offices: {offices} | "
+                f"Date range: {dmin} to {dmax}"
+            )
         
         logger.info("Processing completed successfully")
         

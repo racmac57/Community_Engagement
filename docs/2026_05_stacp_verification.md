@@ -1,6 +1,6 @@
-# STACP Verification Report — May 2026 (ce-cad-etl)
+# STACP Verification Report — 2026_05 (ce-cad-etl)
 
-Generated: 2026-06-11T03:51:05
+Generated: 2026-06-11T05:12:36
 Source: STACP.xlsm!Master_Outreach (READ-ONLY). Match key: **date (col B) + location (col I)**. CAD# (col G) shown for reference only — rarely entered.
 
 | CAD# (ref) | Date | Incident | CAD Location | Officer | Classification | Matched STACP row(s) | STACP Location |

@@ -141,33 +141,39 @@ class CSBProcessor(ExcelProcessor):
         Parse sheet name to extract month/year
         
         Args:
-            sheet_name: Sheet name like '25_Jan', '25_Feb', etc.
+            sheet_name: e.g. '26_01', '25_12', '_24_11' (YY_MM) or legacy '25_Jan'
             
         Returns:
             Dict with 'year' and 'month' keys
         """
+        stripped = sheet_name.strip()
+        # Workbook standard: tabs named YY_MM (e.g. 26_01, 25_12) or _YY_MM
+        m = re.search(r'(\d{2})_(\d{2})$', stripped)
+        if m:
+            yy, mm = int(m.group(1)), int(m.group(2))
+            if 1 <= mm <= 12:
+                return {'year': 2000 + yy, 'month': mm}
+
         month_map = {
-            'Jan': 1, 'Feb': 2, 'MAR': 3, 'APR': 4, 'MAY': 5, 'JUN': 6,
+            'Jan': 1, 'Feb': 2, 'Mar': 3, 'MAR': 3, 'APR': 4, 'MAY': 5, 'JUN': 6,
             'JUL': 7, 'AUG': 8, 'SEP': 9, 'OCT': 10, 'NOV': 11, 'DEC': 12
         }
         
         try:
-            # Split by underscore: '25_Jan' -> ['25', 'Jan']
-            parts = sheet_name.split('_')
+            parts = [p for p in stripped.split('_') if p]
             if len(parts) >= 2:
                 year_part = parts[0]
                 month_part = parts[1]
-                
-                # Convert year: '25' -> 2025
-                year = 2000 + int(year_part)
-                
-                # Convert month: 'Jan' -> 1
-                month = month_map.get(month_part, 1)
-                
-                return {'year': year, 'month': month}
+                if year_part.isdigit() and len(year_part) == 2:
+                    year = 2000 + int(year_part)
+                    if month_part.isdigit():
+                        mm = int(month_part)
+                        if 1 <= mm <= 12:
+                            return {'year': year, 'month': mm}
+                    month = month_map.get(month_part, month_map.get(month_part[:3].title(), 1))
+                    return {'year': year, 'month': month}
         except (ValueError, IndexError):
             pass
         
-        # Default to current year, January
         current_year = datetime.now().year
         return {'year': current_year, 'month': 1}

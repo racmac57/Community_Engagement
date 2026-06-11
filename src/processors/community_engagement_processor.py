@@ -5,6 +5,7 @@ Created: 2025-09-04 EST
 Purpose: Process Community Engagement data with specific column mappings and attendee parsing
 """
 
+import numpy as np
 import pandas as pd
 import re
 from typing import Dict, List, Any
@@ -14,6 +15,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from processors.excel_processor import ExcelProcessor
 from utils.logger_setup import get_project_logger
+from utils.duration_utils import safe_duration_to_hours
 
 logger = get_project_logger(__name__)
 
@@ -148,50 +150,22 @@ class CommunityEngagementProcessor(ExcelProcessor):
     
     def process_duration(self, df: pd.DataFrame) -> pd.DataFrame:
         """
-        Process duration using pre-calculated values if available, otherwise calculate from times
-        
-        Args:
-            df: DataFrame with duration data
-            
-        Returns:
-            DataFrame with duration_hours column
+        Process duration using pre-calculated values if available, otherwise calculate from times.
+        Uses safe_duration_to_hours for timedelta/time/string/float cells so CSV exports numeric hours.
         """
         result_df = df.copy()
-        
-        # Check if we have pre-calculated duration column
-        if 'pre_calculated_duration' in result_df.columns:
-            logger.info("Using pre-calculated duration from Excel")
-            for idx, row in result_df.iterrows():
-                duration_val = row.get('pre_calculated_duration')
-                
-                if pd.notna(duration_val):
-                    try:
-                        # Handle pandas Timedelta objects
-                        if hasattr(duration_val, 'total_seconds'):
-                            hours = duration_val.total_seconds() / 3600.0
-                        # Handle string formats like "0 days 01:00:00"
-                        elif isinstance(duration_val, str):
-                            if 'days' in duration_val:
-                                # Parse format like "0 days 01:00:00"
-                                time_part = duration_val.split()[-1]  # Get "01:00:00"
-                                time_parts = time_part.split(':')
-                                hours = int(time_parts[0]) + int(time_parts[1])/60.0 + int(time_parts[2])/3600.0
-                            else:
-                                # Try direct conversion
-                                hours = float(duration_val)
-                        else:
-                            # Try direct conversion for numeric values
-                            hours = float(duration_val)
-                        
-                        result_df.at[idx, 'duration_hours'] = round(hours, 2)
-                    except Exception as e:
-                        logger.warning(f"Failed to parse pre-calculated duration for row {idx}: {e}")
-                        result_df.at[idx, 'duration_hours'] = 0.5  # Default fallback
-                else:
-                    result_df.at[idx, 'duration_hours'] = 0.5  # Default for missing values
+
+        if "pre_calculated_duration" in result_df.columns:
+            logger.info("Using pre-calculated duration from Excel (with start/end fallback where null)")
+            primary_hours = result_df["pre_calculated_duration"].apply(
+                lambda v: safe_duration_to_hours(v, default=np.nan)
+            )
+            alt_df = self.calculate_duration(result_df)
+            result_df["duration_hours"] = primary_hours.combine_first(alt_df["duration_hours"]).fillna(0.5)
+            result_df["duration_hours"] = result_df["duration_hours"].round(2)
         else:
-            # Fallback to time-based calculation
             logger.info("No pre-calculated duration found, calculating from start/end times")
             result_df = self.calculate_duration(result_df)
-        
+            result_df["duration_hours"] = result_df["duration_hours"].fillna(0.5).round(2)
+
         return result_df

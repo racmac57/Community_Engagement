@@ -5,6 +5,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2026-06-11] — cad-ce-integration
+### Added
+- `src/processors/cad_ce_processor.py` -- `CADCEProcessor`, the fifth combined-feed source. Transforms the CAD CE monthly export (`05_EXPORTS/_CAD/Community_Engagement/monthly/YYYY_MM_CE.xlsx`, `Sheet1`) to the canonical 12-field schema. Routes by Squad to canonical offices (COMM ENG->Community Engagement, A1-A4/B1-B4->Patrol, STA->STA&CP, CSB excluded, other->squad). Imputes sub-2-min memorial spans to 0.5 h.
+- `main_processor.combine_data._dedup_cad_gapfill` -- gap-fill anti-join. Drops a CAD row when a non-CAD (workbook) row already covers the same event (key: date + normalized location; date types coerced since STACP dates are Timestamps and CAD dates are ISO strings). Workbook is system of record.
+- `config.json` -- new `cad_ce` source entry (monthly `file_path`, requires monthly update).
+- `scripts/ce_cad_etl.py` -- QA companion (added across earlier session waves): STACP verification (date+location match, SPLIT_SUGGESTED combined-row guard), paste-ready proposed `Master_Outreach` entries for MISSING/SPLIT rows, unrouted (CSB) report.
+- `src/utils/duration_utils.py`, `src/utils/attendee_utils.py` -- committed for the first time (were untracked since the 2025-11-10 import; the pipeline imports them).
+
+### Changed
+- `config.json` -- source sheet names corrected to current truth: Community Engagement `Master_Log` (was `2025_Master`), STA&CP `Master_Outreach` (was `School_Outreach`), CSB `26_01`.
+- `scripts/ce_cad_etl.py` -- demoted from production writer to QA-only; no longer writes the production CSV or anything to `_DropExports`. Production CSV is produced by `main_processor -> output/`.
+
+### Fixed
+- Verified the CE visual (`Combined_Outreach_All.m`) reads `output/` and auto-selects the newest `community_engagement_data_*.csv`; CAD-integrated feed loads on refresh with no routing step. May 2026 combined feed: 599 rows, CAD contributes 9 gap-fill rows, one true duplicate (Del Carpio 5-27 M&M Center vs STACP "Youth Night") dropped.
+
+### Notes
+- `_DropExports` is the Power BI visual-export drop zone (routed by `process_powerbi_exports.py`), NOT an ETL output target. Earlier in-session writes there were pulled and archived.
+- Snapshot commit captured the pipeline core (processors, `main_processor`, utils) that evolved uncommitted since the 2025-11-10 initial import.
+
 ## [2026-03-28] — swarm-run
 ### Added
 - `CLAUDE.md` -- Complete rewrite with full file inventory, ETL pipeline map, output schema, known issues, and tech debt catalog

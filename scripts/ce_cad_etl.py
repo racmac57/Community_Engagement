@@ -101,6 +101,41 @@ def norm_case(v) -> str:
     return s
 
 
+import re as _re
+
+# location stopwords dropped before token comparison (kept small + place-agnostic)
+_LOC_STOP = {"the", "and", "of", "at", "a", "an"}
+
+
+def norm_loc_collapsed(v) -> str:
+    """Lowercase, strip all non-alphanumerics -> collapsed key. 'M & M Center' -> 'mmcenter'."""
+    if _blank(v):
+        return ""
+    return _re.sub(r"[^a-z0-9]", "", str(v).lower())
+
+
+def norm_loc_tokens(v) -> set:
+    if _blank(v):
+        return set()
+    toks = _re.sub(r"[^a-z0-9 ]", " ", str(v).lower()).split()
+    return {t for t in toks if t not in _LOC_STOP}
+
+
+def loc_match(cad_loc, stacp_loc) -> bool:
+    """date is matched separately; this decides location equivalence on messy free-text."""
+    ca, cb = norm_loc_collapsed(cad_loc), norm_loc_collapsed(stacp_loc)
+    if not ca or not cb:
+        return False
+    if ca == cb or ca in cb or cb in ca:  # 'mmcenter' == 'mmcenter'
+        return True
+    ta, tb = norm_loc_tokens(cad_loc), norm_loc_tokens(stacp_loc)
+    if not ta or not tb:
+        return False
+    inter = ta & tb
+    union = ta | tb
+    return len(inter) / len(union) >= 0.5  # Jaccard
+
+
 def build_location(biz, st_number, street) -> str:
     if not _blank(biz):
         return str(biz).strip()
@@ -285,11 +320,13 @@ def read_stacp_outreach():
         date_v = row[1] if len(row) > 1 else None
         cad_v = row[6] if len(row) > 6 else None
         event_v = row[7] if len(row) > 7 else None
+        loc_v = row[8] if len(row) > 8 else None  # col I = Location
         d = None
         if isinstance(date_v, (datetime.datetime, datetime.date)):
             d = date_v.date() if isinstance(date_v, datetime.datetime) else date_v
         recs.append({"rowidx": i, "date": d, "cad": norm_case(cad_v),
-                     "event": "" if event_v is None else str(event_v).strip()})
+                     "event": "" if event_v is None else str(event_v).strip(),
+                     "location": "" if loc_v is None else str(loc_v).strip()})
     wb.close()
     return recs
 
@@ -298,26 +335,35 @@ def wave3_stacp_verify(sta_rows):
     print("\n=== WAVE 3 — STACP Verification (read-only) ===")
     before = mtime(STACP_PATH)
     stacp = read_stacp_outreach()
-    by_cad = {r["cad"]: r for r in stacp if r["cad"]}
     by_date = {}
     for r in stacp:
         if r["date"] is not None:
-            by_date.setdefault(r["date"], []).append(r["rowidx"])
+            by_date.setdefault(r["date"], []).append(r)
 
+    # Match key: date + normalized location (CAD# in STACP is rarely entered).
+    # PRESENT  = same-date STACP row whose location matches the CAD location.
+    # CONFLICT = same-date STACP row(s) exist but none location-match (candidates listed).
+    # MISSING  = no same-date STACP row at all.
     results = []
     for rec in sta_rows:
-        cad = rec["_cad"]
         try:
             rdate = datetime.date.fromisoformat(rec["date"]) if rec["date"] else None
         except ValueError:
             rdate = None
-        if cad and cad in by_cad:
-            cls, matched = "PRESENT", by_cad[cad]["rowidx"]
-        elif rdate is not None and rdate in by_date:
-            cls, matched = "CONFLICT", by_date[rdate]
+        same_day = by_date.get(rdate, []) if rdate is not None else []
+        loc_hit = next((r for r in same_day if loc_match(rec["location"], r["location"])), None)
+        if loc_hit is not None:
+            cls = "PRESENT"
+            matched = loc_hit["rowidx"]
+            matched_loc = loc_hit["location"]
+        elif same_day:
+            cls = "CONFLICT"
+            matched = [r["rowidx"] for r in same_day]
+            matched_loc = "; ".join(f"r{r['rowidx']}:{r['location']}" for r in same_day)
         else:
-            cls, matched = "MISSING", None
-        results.append({**rec, "classification": cls, "matched_row": matched})
+            cls, matched, matched_loc = "MISSING", None, ""
+        results.append({**rec, "classification": cls, "matched_row": matched,
+                        "matched_loc": matched_loc})
 
     after = mtime(STACP_PATH)
     unchanged = before == after
@@ -325,10 +371,10 @@ def wave3_stacp_verify(sta_rows):
     n_missing = sum(1 for r in results if r["classification"] == "MISSING")
     n_conflict = sum(1 for r in results if r["classification"] == "CONFLICT")
 
-    print("  --- STACP VERIFICATION REPORT ---")
+    print("  --- STACP VERIFICATION REPORT (match: date + location) ---")
     for r in results:
-        print(f"    CAD#={r['_cad'] or '(blank)'} | {r['date']} | {r['event_name']} "
-              f"| {r['classification']} | matched_row={r['matched_row']}")
+        print(f"    {r['date']} | CAD_loc={r['location']!r} | {r['classification']} "
+              f"| matched_row={r['matched_row']} | stacp_loc={r['matched_loc']!r}")
     print(f"  TRIPWIRE: present={n_present} | missing={n_missing} | conflict={n_conflict} "
           f"| stacp_mtime_unchanged={unchanged}")
     if len(results) != len(sta_rows):
@@ -393,17 +439,22 @@ def _write_stacp_report(results):
     lines = [
         "# STACP Verification Report — May 2026 (ce-cad-etl)", "",
         f"Generated: {datetime.datetime.now().isoformat(timespec='seconds')}",
-        "Source: STACP.xlsm!Master_Outreach (READ-ONLY). Match key: CAD# (col G) "
-        "primary, date (col B) fallback.", "",
-        "| CAD# | Date | Incident | Officer | Classification | Matched STACP row |",
-        "|---|---|---|---|---|---|",
+        "Source: STACP.xlsm!Master_Outreach (READ-ONLY). Match key: **date (col B) + "
+        "location (col I)**. CAD# (col G) shown for reference only — rarely entered.", "",
+        "| CAD# (ref) | Date | Incident | CAD Location | Officer | Classification | Matched STACP row(s) | STACP Location |",
+        "|---|---|---|---|---|---|---|---|",
     ]
     for r in results:
         lines.append(f"| {r['_cad'] or '(blank)'} | {r['date']} | {r['event_name']} "
-                     f"| {r['attendee_names']} | **{r['classification']}** | {r['matched_row']} |")
-    lines += ["", "**Legend:** PRESENT = CAD# found in Master_Outreach (no action). "
-              "CONFLICT = no CAD# match but a same-date row exists (review candidate row). "
-              "MISSING = neither — requires manual entry in STACP.xlsm!Master_Outreach.", ""]
+                     f"| {r['location']} | {r['attendee_names']} | **{r['classification']}** "
+                     f"| {r['matched_row']} | {r['matched_loc']} |")
+    lines += ["", "**Match logic:** location normalized (lowercased, non-alphanumerics stripped; "
+              "e.g. 'M & M Center' = 'MM Center'), then collapsed-equality / containment / "
+              "token-Jaccard ≥ 0.5.", "",
+              "**Legend:** PRESENT = same-date STACP row whose location matches (no action). "
+              "CONFLICT = same-date row(s) exist but location did not match — review candidates, "
+              "confirm or add. MISSING = no STACP row on that date — requires manual entry in "
+              "STACP.xlsm!Master_Outreach.", ""]
     (DOCS_DIR / "2026_05_stacp_verification.md").write_text("\n".join(lines), encoding="utf-8")
 
 

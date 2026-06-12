@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2026-06-12] — wave5-ce-ship-decision
+### Added
+- `docs/2026_06_wave5_ce_ship_decision.md` — Wave 5 / May 2026 ship decision for CC and Compstat: re-validate against CAD-integrated logic; do not ship pre-CAD workbook-only figures; provisional footnote text and residual-gap inventory.
+
+### Changed
+- `SUMMARY.md` — May ship posture, corrected known-issues list, next steps aligned to CAD-integrated feed.
+- `CLAUDE.md` — section 6.6 May 2026 ship decision; Last Updated 2026-06-12.
+- `README.md` — link to Wave 5 ship decision doc.
+
 ## [2026-06-11] — cad-ce-integration
 ### Added
 - `src/processors/cad_ce_processor.py` -- `CADCEProcessor`, the fifth combined-feed source. Transforms the CAD CE monthly export (`05_EXPORTS/_CAD/Community_Engagement/monthly/YYYY_MM_CE.xlsx`, `Sheet1`) to the canonical 12-field schema. Routes by Squad to canonical offices (COMM ENG->Community Engagement, A1-A4/B1-B4->Patrol, STA->STA&CP, CSB excluded, other->squad). Imputes sub-2-min memorial spans to 0.5 h.

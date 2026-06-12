@@ -2,7 +2,7 @@
 
 > **Repo**: `Community_Engagement`
 > **Remote**: `racmac57/Community_Engagement.git`
-> **Last Updated**: 2026-06-11
+> **Last Updated**: 2026-06-12
 > **Maintainer**: R. A. Carucci #261, SSOCC / Hackensack PD
 > **AI Assistants Used**: Claude (Excel add-in, Claude Code), Cursor AI
 
@@ -246,6 +246,19 @@ manually-maintained workbooks miss (e.g. months staff have not yet logged), not 
   cases, and the unrouted (CSB) report. It does **not** write the production CSV.
 - **Monthly maintenance**: update `config.json` `cad_ce.file_path` to the current `YYYY_MM_CE.xlsx`
   before each run. (Open task: have the processor auto-pick the newest export in the monthly dir.)
+
+## 6.6 May 2026 Ship Decision (Wave 5, 2026-06-12)
+
+CE was marked PROVISIONAL pending CAD routing validation. **Decision: ship May on the
+CAD-integrated feed with a provisional footnote** — not on pre-CAD workbook-only figures.
+
+- **Authoritative May output:** `output/community_engagement_data_20260611_154355.csv` (599 rows;
+  May 2026 = 15 events, 9 CAD gap-fill, 1 CAD duplicate dropped vs STACP).
+- **Do not ship:** `community_engagement_data_20260610_185029.csv` (582 rows; May = 5 STA&CP-only,
+  no CAD) — undercounts May by 10 events.
+- **Provisional footnote:** CAD gap-fill additive only; workbook is system of record; CSB-squad
+  CAD excluded; STACP reconciliation optional (DiPersia + Katsaroans already in CAD gap-fill).
+- **Full decision doc:** `docs/2026_06_wave5_ce_ship_decision.md`
 
 ---
 

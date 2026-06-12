@@ -53,6 +53,8 @@ officer per row, tagged with a `Squad`) is processed by `src/processors/cad_ce_p
   production CSV and must not write to `_DropExports`.
 - **Monthly maintenance:** update `config.json` `cad_ce.file_path` to the current
   `YYYY_MM_CE.xlsx` before each run.
+- **May 2026 ship (Wave 5):** use the CAD-integrated combined feed, not pre-CAD workbook-only
+  figures. See `docs/2026_06_wave5_ce_ship_decision.md`.
 
 > **`_DropExports` is not an ETL target.** It is the Power BI visual-export drop zone, swept by
 > `06_Workspace_Management/scripts/process_powerbi_exports.py`. The ETL writes the combined CSV to

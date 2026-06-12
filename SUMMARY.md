@@ -1,9 +1,10 @@
 Summary
 =======
 
-Current Status (2026-06-11)
+Current Status (2026-06-12)
 ----------------------------
 
+- **May 2026 ship (Wave 5):** Re-validate and ship on the CAD-integrated feed (`community_engagement_data_20260611_154355.csv`, 599 rows). Do not use pre-CAD workbook-only figures (582 rows / 5 May events). Apply provisional footnote — see `docs/2026_06_wave5_ce_ship_decision.md`.
 - Pipeline processes four active sources (Community Engagement, STA&CP, Patrol, CAD CE). CSB is disabled.
 - CAD CE (v1, 2026-06): the CAD Community Engagement monthly export is a fifth, gap-fill source via `cad_ce_processor.py`. Routes by Squad to canonical offices, normalizes sub-2-min memorial spans to 0.5 h, and a gap-fill anti-join (`_dedup_cad_gapfill`) drops any CAD row a workbook already covers (workbook is system of record).
 - Patrol processor v2: Enhanced attendee parsing with rank stripping, expanded delimiters, and `attendee_names` column.
@@ -33,19 +34,19 @@ Output
 Known Issues
 ------------
 
-1. Directory name typo: `Community_Engagement` (missing 'e').
-2. No requirements.txt file (deps: pandas, openpyxl, pytz).
-3. Stale output accumulation: 30+ timestamped files with no cleanup policy.
-4. OneDrive sync duplicates: 7 files with `(1)` suffix need archiving.
-5. SUMMARY.md previously stated CE sheet as `_25_ce` -- config.json `2025_Master` is authoritative.
+1. No requirements.txt file (deps: pandas, openpyxl, pytz).
+2. Stale output accumulation: 40+ timestamped files with no cleanup policy.
+3. OneDrive sync duplicates: 7 files with `(1)` suffix need archiving.
+4. CE remains **PROVISIONAL** for May ship — methodology footnote required (CAD gap-fill, CSB exclusion). See `docs/2026_06_wave5_ce_ship_decision.md`.
 
 Next Steps
 ----------
 
+- **May ship:** Refresh PBI from latest CAD-integrated CSV in `output/`; apply provisional footnote per `docs/2026_06_wave5_ce_ship_decision.md`.
 - Run `python src/main_processor.py` from project root after source file updates.
 - Before each monthly run, update `config.json` `cad_ce.file_path` to the current `YYYY_MM_CE.xlsx` (candidate: auto-pick newest in the monthly dir).
 - Backfill Feb / Mar 2026 CAD CE (paused 2026-06-11).
-- Paste the May STACP proposals (`docs/2026_05_stacp_proposed_entries.csv`, DiPersia MISSING + Katsaroans SPLIT) into `Master_Outreach`.
+- Optional STACP cleanup: paste DiPersia MISSING + Katsaroans SPLIT rows from `docs/2026_05_stacp_verification.md` into `Master_Outreach` (already captured via CAD gap-fill).
 - Create `requirements.txt` with pinned versions.
 - Implement output rotation/cleanup policy.
 - Evaluate directory rename (`Engagment` -> `Engagement`) with downstream impact analysis.
